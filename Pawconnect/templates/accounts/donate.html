@@ -1,0 +1,943 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate - Support Animal Rescue | PawConnect</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'accounts/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/components.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/main.css' %}">
+    
+    <style>
+        :root {
+            --primary: #20c997;
+            --secondary: #1a374d;
+            --accent: #ff7f50;
+            --light: #f1f5f9;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* ============================================================================
+           HERO SECTION - DONATION PAGE
+           ============================================================================ */
+        .donation-hero {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .donation-hero h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 18px;
+            animation: fadeInDown 0.8s ease-out;
+            font-weight: bold;
+        }
+
+        .donation-hero p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 0;
+            animation: fadeInUp 1s ease-out;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* ============================================================================
+           DONATION STATS
+           ============================================================================ */
+        .stats-section {
+            padding: 45px 20px;
+            background-color: var(--light);
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 25px 18px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+        }
+
+        .stat-card i {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.9rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        /* ============================================================================
+           DONATION OPTIONS
+           ============================================================================ */
+        .donation-options {
+            padding: 50px 20px;
+            background-color: var(--white);
+        }
+
+        .donation-tier {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 28px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        .donation-tier:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-color: var(--primary);
+        }
+
+        .donation-tier.featured {
+            transform: scale(1.04);
+            border-color: var(--primary);
+            position: relative;
+            box-shadow: 0 8px 24px rgba(32, 201, 151, 0.15);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -12px;
+            right: 18px;
+            background: var(--primary);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .tier-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .tier-amount {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .tier-description {
+            color: #6b7280;
+            margin-bottom: 20px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tier-benefits {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .tier-benefits li {
+            padding: 10px 0;
+            color: #4b5563;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.95rem;
+        }
+
+        .tier-benefits li:before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        .tier-benefits li:last-child {
+            border-bottom: none;
+        }
+
+        .btn-donate-tier {
+            background: linear-gradient(135deg, var(--primary) 0%, #17a589 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-donate-tier:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(32, 201, 151, 0.3);
+            background: linear-gradient(135deg, #17a589 0%, #0d6d4f 100%);
+            color: var(--white);
+        }
+
+        /* ============================================================================
+           DONATION FORM
+           ============================================================================ */
+        .donation-form-section {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .donation-form-section h3 {
+            color: var(--secondary);
+            margin-bottom: 30px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .donation-form-section h3 i {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .qr-section {
+            background: linear-gradient(135deg, rgba(32, 201, 151, 0.1), rgba(32, 201, 151, 0.05));
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 2px dashed var(--primary);
+        }
+
+        .qr-image {
+            max-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* ============================================================================
+           IMPACT SECTION
+           ============================================================================ */
+        .impact-section {
+            background: linear-gradient(135deg, var(--primary) 0%, #17a589 100%);
+            color: var(--white);
+            padding: 50px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(32, 201, 151, 0.3);
+        }
+
+        .impact-section h2 {
+            color: var(--white);
+            margin-bottom: 20px;
+            font-family: 'Fredoka One', cursive;
+        }
+
+        .impact-item {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .impact-item:last-child {
+            border-bottom: none;
+        }
+
+        .impact-item i {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .impact-item p {
+            margin: 0;
+            opacity: 0.95;
+        }
+
+        /* ============================================================================
+           FAQ SECTION
+           ============================================================================ */
+        .faq-section {
+            padding: 60px 20px;
+            background: var(--light);
+        }
+
+        .faq-item {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .faq-question:hover {
+            background-color: #f9fafb;
+        }
+
+        .faq-question i {
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 20px 20px 20px;
+            max-height: 500px;
+        }
+
+        /* ============================================================================
+           RESPONSIVE DESIGN
+           ============================================================================ */
+        @media (max-width: 768px) {
+            .donation-tier.featured {
+                transform: scale(1);
+            }
+
+            .donation-form-section {
+                padding: 20px;
+            }
+
+            .impact-section {
+                padding: 30px;
+            }
+
+            .donation-hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: var(--secondary);">
+        <div class="container">
+            <a class="navbar-brand" href="/" style="color: white;">
+                <i class="fa-solid fa-paw" style="color: var(--primary); margin-right: 10px;"></i> 
+                PawConnect
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/" style="color: rgba(255,255,255,0.85);"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'adoption_section' %}" style="color: rgba(255,255,255,0.85);"><i class="fa-solid fa-dog"></i> Adopt</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'volunteer_apply' %}" style="color: rgba(255,255,255,0.85);"><i class="fa-solid fa-hand-holding-heart"></i> Volunteer</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'donate' %}" style="color: var(--primary); background-color: rgba(32, 201, 151, 0.2);"><i class="fa-solid fa-hand-holding-dollar"></i> Donate</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}" style="color: rgba(255,255,255,0.85);"><i class="fa-solid fa-user"></i> Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}" style="color: #ef4444;"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}" style="color: rgba(255,255,255,0.85);"><i class="fa-solid fa-user"></i> Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="donation-hero">
+        <h1>
+            <i class="fa-solid fa-heart"></i> Make a Difference
+        </h1>
+        <p>Your generous donation helps us rescue, care for, and rehome animals in need. Every contribution saves lives.</p>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-paw"></i>
+                        <span class="stat-number">1,200+</span>
+                        <span class="stat-label">Animals Rescued</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-home"></i>
+                        <span class="stat-number">950+</span>
+                        <span class="stat-label">Successful Adoptions</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-syringe"></i>
+                        <span class="stat-number">2,500+</span>
+                        <span class="stat-label">Medical Treatments</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Recovery Success Rate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <div class="row">
+            <!-- Left: Impact & Donation Tiers -->
+            <div class="col-lg-7">
+                <!-- Impact Section -->
+                <div class="impact-section">
+                    <h2><i class="fa-solid fa-star"></i> What Your Donation Does</h2>
+                    
+                    <div class="impact-item">
+                        <i class="fa-solid fa-bone"></i>
+                        <div>
+                            <h5 style="margin: 0; color: var(--white);">Rs. 500</h5>
+                            <p>Provides food for 5 rescued animals for a week</p>
+                        </div>
+                    </div>
+                    
+                    <div class="impact-item">
+                        <i class="fa-solid fa-syringe"></i>
+                        <div>
+                            <h5 style="margin: 0; color: var(--white);">Rs. 1,000</h5>
+                            <p>Covers vaccinations for 2 animals</p>
+                        </div>
+                    </div>
+                    
+                    <div class="impact-item">
+                        <i class="fa-solid fa-bandage"></i>
+                        <div>
+                            <h5 style="margin: 0; color: var(--white);">Rs. 2,500</h5>
+                            <p>Provides medical treatment for an injured animal</p>
+                        </div>
+                    </div>
+                    
+                    <div class="impact-item">
+                        <i class="fa-solid fa-house"></i>
+                        <div>
+                            <h5 style="margin: 0; color: var(--white);">Rs. 5,000+</h5>
+                            <p>Supports shelter operations for one month</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Donation Tiers -->
+                <div class="mt-5">
+                    <h2 class="text-center mb-4" style="color: var(--secondary); font-weight: 700;">
+                        <i class="fa-solid fa-gift" style="color: var(--primary);"></i> Choose Your Amount
+                    </h2>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="donation-tier">
+                                <div class="tier-icon"><i class="fa-solid fa-heart"></i></div>
+                                <div class="tier-amount">Rs. 500</div>
+                                <p class="tier-description">Show Your Care</p>
+                                <ul class="tier-benefits">
+                                    <li>Impact certificate</li>
+                                    <li>Email thank you</li>
+                                    <li>Monthly report</li>
+                                </ul>
+                                <button class="btn-donate-tier">Donate Now</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="donation-tier">
+                                <div class="tier-icon"><i class="fa-solid fa-star"></i></div>
+                                <div class="tier-amount">Rs. 1,000</div>
+                                <p class="tier-description">Friend of Animals</p>
+                                <ul class="tier-benefits">
+                                    <li>Impact certificate</li>
+                                    <li>Monthly report</li>
+                                    <li>Digital badge</li>
+                                    <li>Newsletter</li>
+                                </ul>
+                                <button class="btn-donate-tier">Donate Now</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="donation-tier featured">
+                                <div class="featured-badge">
+                                    <i class="fa-solid fa-crown"></i> Most Popular
+                                </div>
+                                <div class="tier-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                                <div class="tier-amount">Rs. 2,500</div>
+                                <p class="tier-description">Animal Champion</p>
+                                <ul class="tier-benefits">
+                                    <li>Impact certificate</li>
+                                    <li>Monthly reports</li>
+                                    <li>Digital badge</li>
+                                    <li>Sponsor an animal</li>
+                                    <li>Exclusive updates</li>
+                                </ul>
+                                <button class="btn-donate-tier">Donate Now</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="donation-tier">
+                                <div class="tier-icon"><i class="fa-solid fa-shield-heart"></i></div>
+                                <div class="tier-amount">Rs. 5,000+</div>
+                                <p class="tier-description">Lifesaver</p>
+                                <ul class="tier-benefits">
+                                    <li>All above benefits</li>
+                                    <li>Quarterly calls</li>
+                                    <li>Recognition page</li>
+                                    <li>Custom support</li>
+                                </ul>
+                                <button class="btn-donate-tier">Donate Custom Amount</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Donation Form -->
+            <div class="col-lg-5">
+                <div class="donation-form-section">
+                    <h3>
+                        <i class="fa-solid fa-hand-holding-heart"></i> Donate Now
+                    </h3>
+
+                    <!-- QR Code Section -->
+                    {% if qr %}
+                    <div class="qr-section">
+                        <p style="color: var(--secondary); font-weight: 600; margin-bottom: 15px;">
+                            <i class="fa-solid fa-mobile"></i> Scan to Pay
+                        </p>
+                        <img src="{{ qr.image.url }}" alt="QR Code" class="qr-image">
+                        <p style="color: #6b7280; font-size: 0.9rem; margin-top: 15px;">Use your phone to complete payment</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Donation Form -->
+                    <form method="POST" enctype="multipart/form-data" class="donation-form">
+                        {% csrf_token %}
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}" style="border-radius: 12px; border-left: 4px solid; margin-bottom: 20px;">
+                                    <i class="fa-solid fa-check-circle me-2"></i> {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fa-solid fa-user" style="color: var(--primary);"></i> Full Name
+                            </label>
+                            {{ form.name }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fa-solid fa-indian-rupee-sign" style="color: var(--primary);"></i> Donation Amount (Rs.)
+                            </label>
+                            {{ form.amount }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fa-solid fa-receipt" style="color: var(--primary);"></i> Payment Proof
+                            </label>
+                            {{ form.proof }}
+                            <small style="color: #6b7280;" class="d-block mt-2">
+                                <i class="fa-solid fa-info-circle"></i> Upload screenshot of transaction
+                            </small>
+                        </div>
+
+                        <button type="submit" class="btn-donate-tier" style="margin-top: 20px;">
+                            <i class="fa-solid fa-check-circle me-2"></i> Confirm Donation
+                        </button>
+
+                        <p style="text-align: center; color: #6b7280; margin-top: 15px; font-size: 0.9rem;">
+                            <i class="fa-solid fa-lock"></i> Your payment information is secure and encrypted
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: var(--secondary); font-weight: 700;">
+                <i class="fa-solid fa-circle-question" style="color: var(--primary);"></i> Frequently Asked Questions
+            </h2>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How is my donation used?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Our donations are used for animal rescue operations, medical treatment, food, shelter maintenance, and staff training. We are transparent about our finances and provide detailed reports.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Is my donation tax-deductible?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Yes! PawConnect is registered as a 501(c)(3) nonprofit organization. Your donation is tax-deductible. We provide receipts for all donations.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Can I donate monthly?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Absolutely! Monthly donations provide sustainable support for our programs. Contact us for recurring donation options.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Can I sponsor a specific animal?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Yes! Our sponsorship program allows you to directly support a specific animal. You'll receive updates and photos of your sponsored pet.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Is there a minimum donation amount?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            No minimum amount! Every contribution matters. Even Rs. 100 can make a difference in an animal's life.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background-color: var(--secondary); color: var(--white); padding: 40px 20px; text-align: center;">
+        <div class="container">
+            <p style="margin-bottom: 10px;">
+                <i class="fa-solid fa-heart" style="color: #ef4444;"></i> 
+                &copy; 2025 PawConnect Animal Rescue. All Rights Reserved.
+            </p>
+            <p style="margin: 0; opacity: 0.8; font-size: 0.9rem;">
+                <i class="fa-solid fa-envelope"></i> support@pawconnect.org.np | 
+                <i class="fa-solid fa-phone"></i> +977-1-5551234
+            </p>
+        </div>
+    </footer>
+
+ <!-- Chatbox Toggle Button -->
+<div id="chat-toggle" class="chat-toggle" style="position:fixed!important;bottom:30px!important;right:30px!important;width:60px!important;height:60px!important;min-width:60px!important;max-width:60px!important;z-index:99999!important;border-radius:12px!important;background:linear-gradient(135deg,#20c997,#17a589)!important;display:flex!important;align-items:center!important;justify-content:center!important;cursor:pointer!important;color:#fff!important;font-size:1.4rem!important;left:auto!important;top:auto!important;margin:0!important;padding:0!important;">
+  <i class="fa-solid fa-comments"></i>
+</div>
+
+<!-- Chat Window -->
+<div id="chat-container" class="chat-container hidden" style="position:fixed!important;bottom:100px!important;right:30px!important;width:360px!important;max-width:360px!important;min-width:360px!important;height:480px!important;z-index:9998!important;border-radius:16px!important;background:#fff!important;box-shadow:0 12px 40px rgba(0,0,0,0.15)!important;flex-direction:column!important;overflow:hidden!important;border:1px solid #e2e8f0!important;left:auto!important;top:auto!important;margin:0!important;padding:0!important;">
+    <!-- Header -->
+    <div class="chat-header">
+        <span><i class="fa-solid fa-robot"></i> PAW AI Assistant</span>
+        <div style="display:flex;gap:15px;align-items:center;">
+            <i class="fa-solid fa-trash-can" id="clear-chat-btn" style="cursor:pointer;font-size:1rem;transition:transform 0.2s;" title="Clear chat history"></i>
+            <i class="fa-solid fa-times" id="close-chat-btn" style="cursor:pointer;font-size:1.2rem;transition:transform 0.2s;" title="Close chat"></i>
+        </div>
+    </div>
+
+  <!-- Messages -->
+  <div id="chat-box" class="chat-box">
+    <div class="message bot">👋 Hello! I'm PAW AI Assistant. How can I help you today?</div>
+  </div>
+
+  <!-- Input Area -->
+  <form id="chatForm" class="input-container">
+    <input type="text" id="user-input" placeholder="Type your message...">
+    <button type="submit" id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+  </form>
+</div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const item = this.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Chat starts hidden by default via HTML class
+
+        const API_URL = "http://127.0.0.1:8001/chat/"; // Backend URL
+        let conversationId = localStorage.getItem("conversationId") || "convo-" + Date.now();
+        localStorage.setItem("conversationId", conversationId);
+
+        // Load chat history on page load
+        window.addEventListener("DOMContentLoaded", () => {
+          loadChatHistory();
+        });
+
+        // Save message to localStorage
+        function saveChatMessage(sender, text) {
+          const chatHistory = JSON.parse(localStorage.getItem("chatHistory") || "[]");
+          chatHistory.push({ sender, text, timestamp: Date.now() });
+          // Keep only last 50 messages
+          if (chatHistory.length > 50) {
+            chatHistory.shift();
+          }
+          localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+        }
+
+        // Load chat history from localStorage
+        function loadChatHistory() {
+          const chatHistory = JSON.parse(localStorage.getItem("chatHistory") || "[]");
+          const chatBox = document.getElementById("chat-box");
+          
+          // Clear welcome message if there's history
+          if (chatHistory.length > 0) {
+            chatBox.innerHTML = "";
+          }
+          
+          // Load all messages
+          chatHistory.forEach(msg => {
+            const messageDiv = document.createElement("div");
+            messageDiv.className = `message ${msg.sender}`;
+            messageDiv.textContent = msg.text;
+            chatBox.appendChild(messageDiv);
+          });
+          
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Clear chat history
+        function clearChatHistory() {
+          localStorage.removeItem("chatHistory");
+          localStorage.removeItem("conversationId");
+          conversationId = "convo-" + Date.now();
+          localStorage.setItem("conversationId", conversationId);
+          const chatBox = document.getElementById("chat-box");
+          chatBox.innerHTML = '<div class="message bot">👋 Hello! I\'m PAW AI Assistant. How can I help you today?</div>';
+        }
+
+        // Toggle chat window
+        const chatToggle = document.getElementById("chat-toggle");
+        const chatContainer = document.getElementById("chat-container");
+        
+        // Open/Close chat when clicking the chat button
+        chatToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          chatContainer.classList.toggle("hidden");
+        });
+        
+        // Close chat when clicking the X button (use setTimeout to ensure DOM is ready)
+        setTimeout(() => {
+          const closeBtn = document.getElementById("close-chat-btn");
+          const clearBtn = document.getElementById("clear-chat-btn");
+          
+          if (closeBtn) {
+            closeBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              chatContainer.classList.add("hidden");
+              console.log("Chat closed via X button");
+            });
+            
+            // Add hover effect to close button
+            closeBtn.addEventListener("mouseenter", () => {
+              closeBtn.style.transform = "rotate(90deg)";
+            });
+            
+            closeBtn.addEventListener("mouseleave", () => {
+              closeBtn.style.transform = "rotate(0deg)";
+            });
+          }
+          
+          if (clearBtn) {
+            clearBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              if (confirm("Are you sure you want to clear the chat history?")) {
+                clearChatHistory();
+              }
+            });
+            
+            // Add hover effect to clear button
+            clearBtn.addEventListener("mouseenter", () => {
+              clearBtn.style.transform = "scale(1.1)";
+              clearBtn.style.color = "#ef4444";
+            });
+            
+            clearBtn.addEventListener("mouseleave", () => {
+              clearBtn.style.transform = "scale(1)";
+              clearBtn.style.color = "#fff";
+            });
+          }
+        }, 100);
+
+        // Send button click
+        document.getElementById("send-btn").addEventListener("click", function(e) {
+            e.preventDefault();
+            sendMessage();
+        });
+        
+        // Form submit
+        document.getElementById("chatForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            sendMessage();
+        });
+
+        // Enter key press
+        document.getElementById("user-input").addEventListener("keypress", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            sendMessage();
+          }
+        });
+
+        async function sendMessage() {
+          const input = document.getElementById("user-input");
+          const userMessage = input.value.trim();
+          if (!userMessage) return;
+
+          appendMessage("user", userMessage);
+          input.value = "";
+          
+          // Show typing indicator
+          const typingIndicator = showTypingIndicator();
+
+          try {
+            const response = await fetch(API_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                message: userMessage,
+                role: "user",
+                conversation_id: conversationId
+              })
+            });
+
+            const data = await response.json();
+            
+            // Remove typing indicator
+            removeTypingIndicator(typingIndicator);
+            
+            if (response.ok) {
+              appendMessage("bot", data.response);
+            } else {
+              appendMessage("bot", "⚠️ Error: " + data.detail);
+            }
+          } catch (error) {
+            removeTypingIndicator(typingIndicator);
+            appendMessage("bot", "⚠️ Server not reachable!");
+          }
+        }
+
+        function showTypingIndicator() {
+            const chatBox = document.getElementById("chat-box");
+            const typingDiv = document.createElement("div");
+            typingDiv.className = "typing-indicator";
+            typingDiv.id = "typing-indicator";
+            typingDiv.innerHTML = "<span></span><span></span><span></span>";
+            chatBox.appendChild(typingDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            return typingDiv;
+        }
+
+        function removeTypingIndicator(indicator) {
+            if (indicator && indicator.parentNode) {
+                indicator.parentNode.removeChild(indicator);
+            }
+        }
+
+        function appendMessage(sender, text) {
+            const chatBox = document.getElementById("chat-box");
+            const messageDiv = document.createElement("div");
+            messageDiv.className = `message ${sender}`;
+            messageDiv.textContent = text;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            // Save to localStorage
+            saveChatMessage(sender, text);
+        }
+    </script>
+</body>
+</html>

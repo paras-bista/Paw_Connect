@@ -1,0 +1,433 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate | PawConnect</title>
+
+    <!-- Bootstrap CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- FontAwesome (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+
+ 
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'accounts/donate.css' %}">
+</head>
+<style>
+    .navbar {
+            background-color: #1a374d;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8rem;
+        }
+        
+        .navbar-brand i {
+            margin-right: 10px;
+            color: #20c997;
+            font-size: 1.5rem;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .nav-link i {
+            margin-right: 8px;
+            color: #ffffff;
+        } 
+        
+/* Chat Toggle Button */
+.chat-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: #20c997;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1050;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  font-size: 24px;
+}
+
+.chat-toggle:hover {
+  background: #17a589;
+}
+
+/* Chat Window */
+.chat-container {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 320px;
+  height: 400px; /* Fixed height for single frame */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  z-index: 1060;
+  overflow: hidden;
+}
+
+/* Hidden by default */
+.hidden {
+  display: none;
+}
+
+/* Header */
+.chat-header {
+  background: #20c997;
+  color: #fff;
+  padding: 12px 16px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.close-icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.close-icon:hover {
+  color: #ffdddd;
+}
+
+/* Messages */
+.chat-box {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  background: #f7f7f7;
+  border-radius: 6px;
+  margin: 8px 12px;
+  overflow-y: auto; /* optional scroll if messages overflow */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.message.user {
+    background: #20c997;
+    color: #fff;
+    align-self: flex-end;
+    border-radius: 16px 16px 2px 16px;
+    margin-left: auto;
+    margin-right: 0;
+    padding: 10px 16px;
+    max-width: 75%;
+    box-shadow: 0 2px 8px rgba(32,201,151,0.07);
+}
+.message.bot {
+    background: #fff;
+    color: #222;
+    align-self: flex-start;
+    border-radius: 16px 16px 16px 2px;
+    margin-right: auto;
+    margin-left: 0;
+    padding: 10px 16px;
+    max-width: 75%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+/* Input area */
+.input-container {
+  display: flex;
+  padding: 8px 12px;
+  border-top: 1px solid #ddd;
+  align-items: center;
+}
+
+#user-input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+#send-btn {
+  background: #20c997;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#send-btn:hover {
+  background: #17a589;
+}
+
+    </style>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="/"><i class="fa-solid fa-paw"></i> PawConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="/#home"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/#adoption"><i class="fa-solid fa-dog"></i> Adopt</a></li>
+            <li class="nav-item"><a class="nav-link" href="/#sos"><i class="fa-solid fa-triangle-exclamation"></i> Rescue SOS</a></li>
+            <li class="nav-item"><a class="nav-link" href="/#volunteer"><i class="fa-solid fa-hand-holding-heart"></i> Volunteer</a></li>
+
+            <li class="nav-item"><a class="nav-link" href="/#contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'donate' %}">
+        <i class="fa-solid fa-hand-holding-dollar"></i> Donate
+    </a>
+</li>
+
+
+<ul class="navbar-nav ms-auto">
+    {% if user.is_authenticated %}
+
+<li class="nav-item me-2">
+    <a class="nav-link text-white" href="{% url 'profile' %}">
+        <i class="fa-solid fa-user"></i> {{ user.username }}!
+    </a>
+</li>
+        <li class="nav-item">
+            <a class="btn btn-danger btn-sm ms-2" href="{% url 'logout' %}">
+                <i class="fa-solid fa-sign-out-alt"></i> Logout
+            </a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a class="btn btn-theme btn-sm ms-2" href="{% url 'login' %}">
+                <i class="fa-solid fa-user"></i> Login
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-theme btn-sm ms-2" href="{% url 'signup' %}">
+                <i class="fa-solid fa-user-plus"></i> Signup
+            </a>
+        </li>
+    {% endif %}
+</ul>
+
+
+</ul>
+
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+<div class="container my-5 donation-container">
+    <div class="row">
+
+        <!-- Left: Impact Section -->
+        <div class="col-md-6 impact-section">
+            <h2 class="impact-title">Your Support Matters ❤️</h2>
+            <p class="impact-subtitle">Every rupee helps us rescue, feed, and care for more animals in need.</p>
+
+            <div class="impact-stats d-flex flex-wrap gap-3">
+                <div class="impact-stat">
+                    <span class="stat-number">120+</span>
+                    <span class="stat-label">Animals Rescued</span>
+                </div>
+                <div class="impact-stat">
+                    <span class="stat-number">80+</span>
+                    <span class="stat-label">Adoptions</span>
+                </div>
+                <div class="impact-stat">
+                    <span class="stat-number">500kg</span>
+                    <span class="stat-label">Food Distributed</span>
+                </div>
+                <div class="impact-stat">
+                    <span class="stat-number">95%</span>
+                    <span class="stat-label">Medical Recovery</span>
+                </div>
+            </div>
+
+            <div class="impact-examples mt-4">
+                <h3>What your donation does:</h3>
+                <div class="impact-item"><i class="fa-solid fa-bone"></i> Provides food for strays</div>
+                <div class="impact-item"><i class="fa-solid fa-syringe"></i> Funds vaccinations</div>
+                <div class="impact-item"><i class="fa-solid fa-house"></i> Supports shelter homes</div>
+            </div>
+        </div>
+
+        <!-- Right: Donation Form -->
+        <div class="col-md-6 donation-form-section">
+            <h2 class="mb-4 text-center">Make a Donation</h2>
+
+{% if qr %}
+<div class="qr-box text-center mb-3">
+    <h4>Scan & Pay</h4>
+    <img src="{{ qr.image.url }}" alt="QR Code" class="qr-image img-fluid" style="max-width:200px;">
+</div>
+{% else %}
+<!-- optional default QR -->
+<img src="{% static 'company/QR_company.jpg' %}" alt="Default QR" class="qr-image img-fluid" style="max-width:200px;">
+{% endif %}
+
+
+            <form method="POST" enctype="multipart/form-data" class="donation-form">
+                {% csrf_token %}
+
+                <div class="form-group mb-3">
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form.amount.label_tag }}
+                    {{ form.amount }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form.proof.label_tag }}
+                    {{ form.proof }}
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100" style="background-color: #20c997; border-color: #20c997;">Confirm Donation</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+ <!-- Chatbox Toggle Button -->
+<div id="chat-toggle" class="chat-toggle">
+  <i class="fa-solid fa-comments fa-1.5x"></i>
+</div>
+
+<!-- Chat Window -->
+<div id="chat-container" class="chat-container hidden">
+    <!-- Header -->
+    <div class="chat-header">
+        <span><i class="fa-solid fa-comments"></i> PAW AI</span>
+    </div>
+
+  <!-- Messages -->
+  <div id="chat-box" class="chat-box">
+    How can we help you?
+  </div>
+
+  <!-- Input Area -->
+  <form id="chatForm" class="input-container">
+    <input type="text" id="user-input" placeholder="Type your message...">
+    <button type="submit" id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+  </form>
+</div>
+
+<!-- JS Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const API_URL = "http://127.0.0.1:8001/chat/"; // Backend URL
+let conversationId = "my-convo-1";
+
+// Toggle chat window
+const chatToggle = document.getElementById("chat-toggle");
+const chatContainer = document.getElementById("chat-container");
+        
+
+chatToggle.addEventListener("click", () => {
+  chatContainer.classList.toggle("hidden");
+});
+
+// Send button click
+                document.getElementById("send-btn").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    sendMessage();
+                });
+        
+                // Form submit
+                document.getElementById("chatForm").addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    sendMessage();
+                });
+
+// Enter key press
+document.getElementById("user-input").addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    sendMessage();
+  }
+});
+
+async function sendMessage() {
+  const input = document.getElementById("user-input");
+  const userMessage = input.value.trim();
+  if (!userMessage) return;
+
+  appendMessage("user", userMessage);
+  input.value = "";
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: userMessage,
+        role: "user",
+        conversation_id: conversationId
+      })
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      appendMessage("bot", data.response);
+    } else {
+      appendMessage("bot", "⚠️ Error: " + data.detail);
+    }
+  } catch (error) {
+    appendMessage("bot", "⚠️ Server not reachable!");
+  }
+}
+
+function appendMessage(sender, text) {
+    const chatBox = document.getElementById("chat-box");
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message ${sender}`;
+    // Add sender label for clarity
+    if(sender === "user") {
+        messageDiv.innerHTML = `<span style='font-weight:bold;color:#007bff;'>You:</span> ${text}`;
+    } else {
+        messageDiv.innerHTML = `<span style='font-weight:bold;color:#007bff;'>AI:</span> ${text}`;
+    }
+    chatBox.appendChild(messageDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+</script>
+
+</body>
+</html>

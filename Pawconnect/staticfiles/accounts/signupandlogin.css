@@ -1,0 +1,86 @@
+/* Theme Colors */
+:root {
+    --theme-color: #1b8dcf;      /* Blue theme */
+   /* Light blue background */
+}
+
+
+/* Background image with blur effect */
+body.bg-light {
+    position: relative;
+    min-height: 100vh;
+    background: none;
+    overflow: hidden;
+}
+
+body.bg-light::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-color: #1a374d;
+    background: url('https://png.pngtree.com/thumb_back/fh260/background/20210814/pngtree-puppy-paw-prints-image_762859.jpg') center center/cover no-repeat;
+    filter: blur(8px) brightness(0.8);
+}
+
+body.bg-light::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(135deg, var(--theme-light) 60%, #cfe2f3 100%);
+    opacity: 0.7;
+}
+
+/* Card styling */
+.card {
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    background: #11f5e2;
+}
+
+/* Section title icon color */
+.text-theme {
+    color: var(--theme-color) !important;
+}
+
+/* Theme button */
+.btn-theme {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+.btn-theme:hover,
+.btn-theme:focus {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+/* Input focus */
+.form-control:focus {
+    border-color: var(--theme-color);
+    box-shadow: 0 0 0 0.2rem rgba(52,152,219,0.15);
+}
+
+/* Form label */
+.form-label {
+    color: var(--theme-dark);
+    font-weight: 500;
+}
+
+/* Link styling */
+a.text-decoration-none {
+    color: var(--theme-color);
+}
+a.text-decoration-none:hover {
+    text-decoration: underline;
+    color: #217dbb;
+}
+
+/* Responsive card padding */
+@media (max-width: 576px) {
+    .card-body {
+        padding: 1.5rem !important;
+    }
+}

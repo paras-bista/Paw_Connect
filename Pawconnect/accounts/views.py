@@ -1,0 +1,173 @@
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.core.mail import send_mail
+from django.conf import settings
+import random
+from adopt.models import Pet
+
+User = get_user_model()
+
+# ---------- Helpers ----------
+def generate_otp():
+    return str(random.randint(100000, 999999))
+
+def send_otp_email(email, otp):
+    subject = 'Your OTP for Paw connect'
+    message = f'Your OTP is: {otp}'
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+
+# ---------- Base ----------
+def base(request):
+    # Fetch up to 3 pets for the featured section
+    featured_pets = Pet.objects.all()[:3]
+    return render(request, 'accounts/base.html', {'featured_pets': featured_pets})
+
+# ---------- Authentication ----------
+def login_view(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        try:
+            user_obj = User.objects.get(email=email)
+            username = user_obj.get_username()
+        except User.DoesNotExist:
+            messages.error(request, "Invalid email or password.")
+            return redirect("login")  # URL name
+
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            # Log the user in
+            login(request, user)
+            messages.success(request, "You have successfully logged in.")
+            # Redirect to home/base page
+            return redirect('home')
+        else:
+            messages.error(request, "Invalid email or password.")
+            return redirect("login")
+
+    # GET request
+    return render(request, "accounts/login.html")  # ✅ fixed
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'Logout successful.')
+    return redirect('home')
+
+def signup(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        # Basic validations
+        if password != confirm_password:
+            messages.error(request, 'Passwords do not match')
+            return render(request, 'accounts/signup.html')
+
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'Email already in use')
+            return render(request, 'accounts/signup.html')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already taken')
+            return render(request, 'accounts/signup.html')
+
+        if not username:
+            messages.error(request, 'Username is required')
+            return render(request, 'accounts/signup.html')
+
+        # Generate OTP and save in session
+        otp = generate_otp()
+        request.session['temp_user_email'] = email
+        request.session['temp_user_username'] = username
+        request.session['temp_user_password'] = password
+        request.session['otp'] = otp
+
+        # Send OTP email
+        send_otp_email(email, otp)
+
+        # Show success message
+        # messages.success(request, 'OTP has been sent to your email.')
+        return redirect('verify_otp')  # Redirect to OTP verification page
+
+    return render(request, 'accounts/signup.html')# ✅ fixed
+
+
+def verify_otp(request):
+    if request.method == 'POST':
+        entered_otp = request.POST.get('otp', '').strip()
+        session_otp = str(request.session.get('otp', '')).strip()
+        email = request.session.get('temp_user_email')
+        username = request.session.get('temp_user_username')
+        password = request.session.get('temp_user_password')
+
+        if entered_otp == session_otp and email and username and password:
+            # Check if user already exists
+            user = User.objects.filter(email=email).first()
+            if not user:
+                user = User.objects.create_user(email=email, username=username, password=password)
+                user.is_active = True
+                user.save()
+
+            login(request, user)
+
+            # Clear session
+            for key in ['otp', 'temp_user_email', 'temp_user_username', 'temp_user_password']:
+                request.session.pop(key, None)
+
+            messages.success(request, 'Signup successful!')
+            return redirect('/')  # redirect to base (or change to home page)
+        else:
+            return render(request, 'accounts/verify_otp.html', {'error': 'Invalid OTP. Please try again.'})
+
+    return render(request, 'accounts/verify_otp.html')  # ✅ fixed
+
+
+def resend_otp(request):
+    email = request.session.get('temp_user_email')
+    if email:
+        otp = generate_otp()
+        request.session['otp'] = otp
+        send_otp_email(email, otp)
+        messages.success(request, 'OTP has been resent to your email.')
+        return redirect('verify_otp')  # URL name
+    else:
+        messages.error(request, 'You need to signup first.')
+        return redirect('signup')  # URL name
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+
+@login_required
+def profile_view(request):
+    user = request.user
+
+    if request.method == 'POST':
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        # Check if current password is correct
+        if user.check_password(current_password):
+            if new_password == confirm_password:
+                user.set_password(new_password)
+                user.save()
+                # Keep user logged in after password change
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Password changed successfully!')
+            else:
+                messages.error(request, 'New passwords do not match!')
+        else:
+            messages.error(request, 'Current password is incorrect!')
+
+    context = {'user': user}
+    return render(request, 'accounts/profile.html', context)
+
+

@@ -1,0 +1,53 @@
+ /* Donation Form Section */
+.donation-form-section {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.donation-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.donation-form label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.donation-form input {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    transition: border 0.3s ease;
+}
+
+.donation-form input:focus {
+    border-color: #e74c3c;
+    outline: none;
+} 
+
+/* QR Code Styling */
+.qr-box {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.qr-box h4 {
+    margin-bottom: 1rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.qr-image {
+    max-width: 200px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+ 

@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adopt a Pet</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'accounts/main.css' %}">
+
+  <style>
+    body {
+      background: #f8fafc;
+      font-family: 'Poppins', sans-serif;
+    }
+    .pet-card {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      margin-bottom: 30px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+    .pet-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    .pet-card img {
+      height: 250px;
+      object-fit: cover;
+    }
+    .btn-theme {
+      background: #20c997;
+      color: #fff;
+      border-radius: 8px;
+      padding: 10px 20px;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    .btn-theme:hover {
+      background: #17a589;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(32,201,151,0.2);
+    }
+  </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="/"><i class="fa-solid fa-paw"></i> PawConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="/"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/#adoption"><i class="fa-solid fa-dog"></i> Adopt</a></li>
+            <li class="nav-item"><a class="nav-link" href="/#sos"><i class="fa-solid fa-triangle-exclamation"></i> Rescue SOS</a></li>
+            <li class="nav-item"><a class="nav-link" href="/#volunteer"><i class="fa-solid fa-hand-holding-heart"></i> Volunteer</a></li>
+            <li class="nav-item"><a class="nav-link" href="/#contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'donate' %}">
+                <i class="fa-solid fa-hand-holding-dollar"></i> Donate
+              </a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item me-2">
+              <a class="nav-link text-white" href="{% url 'profile' %}">
+                <i class="fa-solid fa-user-circle"></i> {{ user.username }}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-danger btn-sm ms-2" href="{% url 'logout' %}">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+              </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="btn btn-theme btn-sm ms-2" href="{% url 'login' %}">
+                <i class="fa-solid fa-user"></i> Login
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-outline-theme btn-sm ms-2" href="{% url 'signup' %}">
+                <i class="fa-solid fa-user-plus"></i> Sign Up
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    
+  <div class="container my-5">
+    <h1 class="text-center mb-4"><i class="fa-solid fa-paw"></i>Pets Waiting for Homes</h1>
+
+        <p class="text-center mb-5">Each of these rescued animals has been vaccinated, microchipped, and is ready to
+            join a loving family.</p>
+    <div class="row">
+      {% for pet in pets %}
+      <div class="col-md-4">
+        <div class="card pet-card">
+          <img src="{{ pet.image }}" class="card-img-top" alt="{{ pet.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ pet.name }}</h5>
+            <p class="card-text">
+              Gender: {{ pet.gender }}<br>
+              Age: {{ pet.age }}<br>
+              Vaccinated: {{ pet.vaccinated|yesno:"Yes,No" }}<br>
+              Neutered/Spayed: {{ pet.neutered_spayed|yesno:"Yes,No" }}
+            </p>
+            <a href="{% url 'adopt_pet' pet.id %}" class="btn btn-theme">Adopt Me</a>
+            <a href="{% url 'sponsor_pet' pet.id %}" class="btn btn-outline-secondary ms-2">
+              <i class="fa-regular fa-heart"></i> Sponsor
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+ <!-- Chatbox Toggle Button -->
+<div id="chat-toggle" class="chat-toggle" style="position:fixed!important;bottom:30px!important;right:30px!important;width:60px!important;height:60px!important;min-width:60px!important;max-width:60px!important;z-index:99999!important;border-radius:12px!important;background:linear-gradient(135deg,#20c997,#17a589)!important;display:flex!important;align-items:center!important;justify-content:center!important;cursor:pointer!important;color:#fff!important;font-size:1.4rem!important;left:auto!important;top:auto!important;margin:0!important;padding:0!important;">
+  <i class="fa-solid fa-comments"></i>
+</div>
+
+<!-- Chat Window -->
+<div id="chat-container" class="chat-container hidden" style="position:fixed!important;bottom:100px!important;right:30px!important;width:360px!important;max-width:360px!important;min-width:360px!important;height:480px!important;z-index:9998!important;border-radius:16px!important;background:#fff!important;box-shadow:0 12px 40px rgba(0,0,0,0.15)!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;border:1px solid #e2e8f0!important;left:auto!important;top:auto!important;margin:0!important;padding:0!important;">
+    <!-- Header -->
+    <div class="chat-header">
+        <span><i class="fa-solid fa-robot"></i> PAW AI Assistant</span>
+        <i class="fa-solid fa-times" style="cursor: pointer; font-size: 1.2rem;" onclick="document.getElementById('chat-container').classList.add('hidden')"></i>
+    </div>
+
+  <!-- Messages -->
+  <div id="chat-box" class="chat-box">
+    How can we help you?
+  </div>
+
+  <!-- Input Area -->
+  <form id="chatForm" class="input-container">
+    <input type="text" id="user-input" placeholder="Type your message...">
+    <button type="submit" id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+  </form>
+</div>
+
+  <script>
+const API_URL = "http://127.0.0.1:8001/chat/";
+let conversationId = "my-convo-1";
+
+// Ensure chat starts hidden
+setTimeout(function() {
+    document.getElementById('chat-container').classList.add('hidden');
+}, 100);
+
+const chatToggle = document.getElementById("chat-toggle");
+const chatContainer = document.getElementById("chat-container");
+
+chatToggle.addEventListener("click", () => {
+  chatContainer.classList.toggle("hidden");
+});
+
+document.getElementById("send-btn").addEventListener("click", function(e) {
+  e.preventDefault();
+  sendMessage();
+});
+
+document.getElementById("chatForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  sendMessage();
+});
+
+document.getElementById("user-input").addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    sendMessage();
+  }
+});
+
+async function sendMessage() {
+  const input = document.getElementById("user-input");
+  const userMessage = input.value.trim();
+  if (!userMessage) return;
+
+  appendMessage("user", userMessage);
+  input.value = "";
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: userMessage,
+        role: "user",
+        conversation_id: conversationId
+      })
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      appendMessage("bot", data.response);
+    } else {
+      appendMessage("bot", "⚠️ Error: " + data.detail);
+    }
+  } catch (error) {
+    appendMessage("bot", "⚠️ Server not reachable!");
+  }
+}
+
+function appendMessage(sender, text) {
+    const chatBox = document.getElementById("chat-box");
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message ${sender}`;
+    messageDiv.textContent = text;
+    chatBox.appendChild(messageDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+  </script><!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

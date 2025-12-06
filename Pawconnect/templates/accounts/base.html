@@ -1,0 +1,1058 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawConnect - Animal Rescue & Adoption</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{% static 'accounts/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/components.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/main.css' %}">
+    
+</head>
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+    .hero-content h1, h2 {
+        color: #ffffff;
+        animation: fadeInDown 2s ease-out;
+    }
+    
+    .hero-content p {
+
+        animation: fadeInUp 2.5s ease-out;
+    }
+
+    .btn-hero {
+
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        animation: zoomIn 2.5s ease-out;
+    }
+
+    .btn-hero:hover {
+        transform: scale(1.1);
+
+    }
+
+    /* ✨ Keyframes */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-40px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes zoomIn {
+        from {
+            opacity: 0;
+            transform: scale(0.7);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    
+/* Chat appearance is managed centrally in `static/accounts/main.css`. */
+
+/* Toast Notification Styling */
+.toast {
+    min-width: 350px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    animation: slideInRight 0.4s ease-out;
+    border: none;
+}
+
+.toast-header {
+    border-bottom: none;
+    padding: 12px 16px;
+    font-weight: 600;
+}
+
+.toast-body {
+    border-radius: 0 0 12px 12px;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 576px) {
+    .toast {
+        min-width: 280px;
+    }
+}
+
+</style>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'base' %}"><i class="fa-solid fa-paw"></i> PawConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-center">
+            <!-- Navigation Links -->
+            <li class="nav-item">
+              <a class="nav-link" href="#home"><i class="fa-solid fa-house"></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'adoption_section' %}"><i class="fa-solid fa-dog"></i> Adopt</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#sos"><i class="fa-solid fa-heart-pulse"></i> Rescue SOS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'volunteer_apply' %}"><i class="fa-solid fa-handshake"></i> Volunteer</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'donate' %}"><i class="fa-solid fa-hand-holding-heart"></i> Donate</a>
+            </li>
+            
+            <!-- Authentication Section -->
+            {% if user.is_authenticated %}
+            <li class="nav-item ms-3">
+              <a class="nav-link nav-user" href="{% url 'profile' %}">
+                <i class="fa-solid fa-user-circle"></i> {{ user.username }}
+              </a>
+            </li>
+            <li class="nav-item ms-2">
+              <a class="btn btn-danger btn-sm" href="{% url 'logout' %}">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+              </a>
+            </li>
+            {% else %}
+            <li class="nav-item ms-3">
+              <a class="btn btn-theme btn-sm" href="{% url 'login' %}">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
+              </a>
+            </li>
+            <li class="nav-item ms-2">
+              <a class="btn btn-primary btn-sm" href="{% url 'signup' %}">
+                <i class="fa-solid fa-user-plus"></i> Sign Up
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 99999; margin-top: 70px; pointer-events: none;">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000" style="pointer-events: auto;">
+                    <div class="toast-header" style="background: {% if message.tags == 'success' %}linear-gradient(135deg, #20c997, #17a589){% elif message.tags == 'error' or message.tags == 'danger' %}linear-gradient(135deg, #ef4444, #dc2626){% elif message.tags == 'warning' %}linear-gradient(135deg, #f59e0b, #d97706){% else %}linear-gradient(135deg, #3b82f6, #2563eb){% endif %}; color: white; border: none;">
+                        <i class="fa-solid {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' or message.tags == 'danger' %}fa-exclamation-circle{% elif message.tags == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %} me-2"></i>
+                        <strong class="me-auto">{% if message.tags == 'success' %}Success{% elif message.tags == 'error' or message.tags == 'danger' %}Error{% elif message.tags == 'warning' %}Warning{% else %}Info{% endif %}</strong>
+                        <small>Just now</small>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body" style="background: white; color: #1f2937; font-weight: 500; padding: 15px;">
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2 class="fw-bold" style="margin-bottom: 20px; animation: fadeInDown 0.8s ease-out;">
+                <i class="fa-solid fa-paw"></i> Welcome to PawConnect
+            </h2>
+            <h1><i class="fa-solid fa-heart"></i> Giving Animals a Second Chance</h1>
+            <p>Join our mission to rescue, rehabilitate, and rehome animals in need across the country.</p>
+            <div class="hero-buttons">
+                <a href="{% url 'adoption_section' %}" class="btn btn-hero"><i class="fa-solid fa-dog"></i> Adopt a Pet</a>
+                <a href="#sos" class="btn btn-hero btn-green"><i class="fa-solid fa-triangle-exclamation"></i> Report SOS</a>
+            </div>
+        </div>
+    </section>
+    <section class="section section-light-gray">
+        <div class="container">
+            <div class="row text-center g-4">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fa-solid fa-dog fa-3x text-primary mb-3" style="opacity: 0.9;"></i>
+                            <h4 class="fw-bold mb-1">1,200+</h4>
+                            <p class="text-muted mb-0">Animals Rescued</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fa-solid fa-house fa-3x text-primary mb-3" style="opacity: 0.9;"></i>
+                            <h4 class="fw-bold mb-1">950+</h4>
+                            <p class="text-muted mb-0">Successful Adoptions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fa-solid fa-users fa-3x text-primary mb-3" style="opacity: 0.9;"></i>
+                            <h4 class="fw-bold mb-1">300+</h4>
+                            <p class="text-muted mb-0">Active Volunteers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fa-solid fa-handshake fa-3x text-primary mb-3" style="opacity: 0.9;"></i>
+                            <h4 class="fw-bold mb-1">500+</h4>
+                            <p class="text-muted mb-0">Partners & Donors</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+                        <div class="card">
+                            <div class="card-body">
+                                <i class="fa-solid fa-hand-holding-dollar fa-2x text-danger mb-2"></i>
+                                <h4 class="fw-bold mb-0">NPR 5M+</h4>
+                                <p class="mb-0">Funds Raised</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+<hr class="my-4">
+
+
+
+
+
+
+
+    <!-- Quick Links Section -->
+    <!-- Quick Links Section -->
+    <section class="section section-white">
+        <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="fa-solid fa-dog fa-3x text-primary mb-3" style="opacity: 0.9;"></i>
+                        <h5 class="card-title fw-bold">Adopt a Pet</h5>
+                        <p class="card-text">Find your perfect companion from our rescued animals ready for loving homes.</p>
+                        <a href="{% url 'adoption_section' %}" class="btn btn-theme"><i class="fa-solid fa-paw"></i> Browse Pets</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="fa-solid fa-triangle-exclamation fa-3x text-danger mb-3" style="opacity: 0.9;"></i>
+                        <h5 class="card-title fw-bold">Rescue SOS</h5>
+                        <p class="card-text">Report injured, abandoned, or abused animals needing immediate assistance.</p>
+                        <a href="#sos" class="btn btn-theme"><i class="fa-solid fa-phone"></i> Report Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="fa-solid fa-heart fa-3x text-success mb-3" style="opacity: 0.9;"></i>
+                        <h5 class="card-title fw-bold">Get Involved</h5>
+                        <p class="card-text">Volunteer, foster, or donate to support our animal welfare mission.</p>
+                        <a href="{% url 'volunteer_apply' %}" class="btn btn-theme"><i class="fa-solid fa-hands-holding"></i> Join Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pets Waiting for Homes Section -->
+    <section id="adoption" class="section section-light-gray">
+        <div class="container">
+        <h2 class="section-title"><i class="fa-solid fa-paw"></i> Pets Waiting for Homes</h2>
+        <p class="text-center mb-5">Each of these rescued animals has been vaccinated, microchipped, and is ready to join a loving family.</p>
+        
+        <div class="row g-4">
+            {% for pet in featured_pets %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ pet.image }}" class="card-img-top" alt="{{ pet.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {% if pet.name == 'Buddy' %}
+                                <i class="fa-solid fa-dog"></i> {{ pet.name }}
+                            {% elif pet.name == 'Mittens' %}
+                                <i class="fa-solid fa-cat"></i> {{ pet.name }}
+                            {% else %}
+                                <i class="fa-solid fa-bunny"></i> {{ pet.name }}
+                            {% endif %}
+                        </h5>
+                        <p class="card-text"><i class="fa-solid fa-mars"></i> {{ pet.gender }}, {{ pet.age }} years old</p>
+                        <p class="card-text"><i class="fa-solid fa-shield-virus"></i> Vaccinated: {{ pet.vaccinated|yesno:"Yes,No" }} | Neutered/Spayed: {{ pet.neutered_spayed|yesno:"Yes,No" }}</p>
+                        <p class="card-text">{{ pet.description }}</p>
+                        <a href="{% url 'adoption_section' %}" class="btn btn-theme btn-sm"><i class="fa-solid fa-heart"></i> Adopt Me</a>
+                        <a href="{% url 'donate' %}" class="btn btn-outline-primary btn-sm ms-2"><i class="fa-regular fa-star"></i> Sponsor</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No pets available for adoption at the moment. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{% url 'adoption_section' %}" class="btn btn-theme btn-lg"><i class="fa-solid fa-paw"></i> View All Available Pets</a>
+        </div>
+        </div>
+    </section>
+
+    <!-- Rescue SOS Section -->
+<section id="sos" class="section section-light-gray">
+    <div class="container">
+        <h2 class="section-title"><i class="fa-solid fa-triangle-exclamation"></i> Emergency Animal Rescue</h2>
+    <p class="text-center mb-5">Report injured, abused, or abandoned animals in your area. Our team will respond as quickly as possible.</p>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fa-solid fa-circle-question"></i> When to Report</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><i class="fa-solid fa-check-circle text-success me-2"></i> Visible injuries or illness</li>
+                        <li class="list-group-item"><i class="fa-solid fa-check-circle text-success me-2"></i> Abandoned or trapped animals</li>
+                        <li class="list-group-item"><i class="fa-solid fa-check-circle text-success me-2"></i> Suspected abuse or neglect</li>
+                        <li class="list-group-item"><i class="fa-solid fa-check-circle text-success me-2"></i> Animals in immediate danger</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fa-solid fa-phone"></i> Emergency Hotline</h5>
+                    <p>For immediate assistance, call our 24/7 rescue hotline:</p>
+                    <h3 class="text-danger">1-800-PAW-RESCUE</h3>
+                    <p class="small text-muted">Available in all regions we serve</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Report an Animal in Need</h5>
+
+                    {% if user.is_authenticated %}
+<form method="POST" enctype="multipart/form-data" class="row g-3" action="{% url 'submit_rescue_request' %}">
+                        {% csrf_token %}
+
+                        <div class="col-md-6">
+                            <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="tel" name="phone" class="form-control" placeholder="Phone Number" required>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" name="location" class="form-control" placeholder="Exact Location (Street, City)" required>
+                        </div>
+                        <div class="col-12">
+                            <select name="emergency_type" class="form-select" required>
+                                <option value="">Type of Emergency</option>
+                                <option value="injury">Injured Animal</option>
+                                <option value="abuse">Abuse/Neglect</option>
+                                <option value="abandoned">Abandoned Animal</option>
+                                <option value="trapped">Trapped Animal</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <textarea name="description" class="form-control" rows="4" placeholder="Please describe the animal(s) and situation in detail" required></textarea>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="photo" class="form-label">Upload Photo (if possible)</label>
+                                <input class="form-control" type="file" name="photo" id="photo">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-theme btn-green w-100">
+                                <i class="fa-solid fa-paper-plane"></i> Submit Rescue Request
+                            </button>
+                        </div>
+                    </form>
+                    {% else %}
+                        <p class="text-danger text-center">Please <a href="{% url 'login' %}">login</a> to report an animal in need.</p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!--Volunteer section-->
+<!-- Volunteer Section -->
+    <section id="volunteer" class="section section-white">
+        <div class="container">
+            <h2 class="section-title text-center">
+                <i class="fa-solid fa-hand-holding-heart"></i> Get Involved
+            </h2>
+            <p class="text-center mb-5">
+                Join our community of animal lovers making a difference in animals' lives every day.
+            </p>
+
+        <div class="row g-4">
+            <!-- Volunteer Opportunities Card -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fa-solid fa-users"></i> Volunteer Opportunities</h5>
+                        <div class="accordion" id="volunteerAccordion">
+                            
+                            <!-- Animal Care Volunteer -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne">
+                                        <i class="fa-solid fa-medkit me-2"></i> Animal Care Volunteer
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                    data-bs-parent="#volunteerAccordion">
+                                    <div class="accordion-body">
+                                        <p>Help with daily care including feeding, cleaning, and socializing with our rescued animals. Training provided.</p>
+                                        <p><strong>Time commitment:</strong> 4+ hours per week</p>
+                                        <a href="{% url 'volunteer_apply' %}" class="btn btn-sm btn-theme">Apply Now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Rescue Transport Volunteer -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseTwo">
+                                        <i class="fa-solid fa-truck me-2"></i> Rescue Transport Volunteer
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse"
+                                    data-bs-parent="#volunteerAccordion">
+                                    <div class="accordion-body">
+                                        <p>Transport animals to/from vet appointments, foster homes, and adoption events. Must have reliable vehicle.</p>
+                                        <p><strong>Time commitment:</strong> Flexible, on-call basis</p>
+                                        <a href="{% url 'volunteer_apply' %}" class="btn btn-sm btn-theme">Apply Now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Foster Care Provider -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseThree">
+                                        <i class="fa-solid fa-home me-2"></i> Foster Care Provider
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse"
+                                    data-bs-parent="#volunteerAccordion">
+                                    <div class="accordion-body">
+                                        <p>Temporarily care for animals in your home until they're ready for adoption. All supplies provided.</p>
+                                        <p><strong>Time commitment:</strong> 2 weeks to several months</p>
+                                        <a href="{% url 'volunteer_apply' %}" class="btn btn-sm btn-theme">Apply Now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div> <!-- end accordion -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support / Donation Card -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fa-solid fa-hand-holding-dollar"></i> Support Us</h5>
+                        <p>You can also contribute by donating, sponsoring, or spreading awareness. Your support helps us rescue, treat, and rehome animals in need.</p>
+                        <p><strong>Your support will help us:</strong></p>
+            <ul>
+                <li>Provide food, shelter, and medical care for rescued animals</li>
+                <li>Run vaccination and sterilization programs</li>
+                <li>Support foster families with supplies</li>
+                <li>Organize adoption and awareness events</li>
+                <li>Expand our rescue network and emergency response</li>
+            </ul>
+            <p>Together, we can create a safer and happier world for animals.</p>
+                        <a href="{% url 'donate' %}" class="btn btn-sm btn-theme">Donate Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+                        <h6 class="mb-3" style="text-align: center;">Other Ways to Help:</h6>
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <i class="fa-solid fa-bone text-primary mb-2"></i>
+                                        <h6>Wish List</h6>
+                                        <p class="small">Food, toys, blankets, and supplies</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <i class="fa-solid fa-share-nodes text-primary mb-2"></i>
+                                        <h6>Spread the Word</h6>
+                                        <p class="small">Share our mission on social media</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <i class="fa-solid fa-briefcase text-primary mb-2"></i>
+                                        <h6>Corporate Support</h6>
+                                        <p class="small">Sponsorship opportunities</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <i class="fa-solid fa-gift text-primary mb-2"></i>
+                                        <h6>Memorial Gifts</h6>
+                                        <p class="small">Honor a loved one</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+   
+    <!-- Contact Section -->
+<section id="contact" class="section section-light-gray">
+    <div class="container">
+        <h2 class="section-title"><i class="fa-solid fa-envelope"></i> Contact Us</h2>
+        
+        <div class="row">
+            <!-- LEFT SIDE: Locations & Info -->
+            <div class="col-lg-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Our Locations</h5>
+                    
+                    <div class="mb-4">
+                        <h6><i class="fa-solid fa-location-dot text-primary me-2"></i> Kathmandu Headquarters</h6>
+                        <p>123 Animal Lane, Kathmandu 44600<br>
+                        <i class="fa-solid fa-phone me-1"></i> +977-1-5551234</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6><i class="fa-solid fa-location-dot text-primary me-2"></i> Pokhara Center</h6>
+                        <p>456 Lakeside Rd, Pokhara 33700<br>
+                        <i class="fa-solid fa-phone me-1"></i> +977-61-5555678</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6><i class="fa-solid fa-location-dot text-primary me-2"></i> Chitwan Clinic</h6>
+                        <p>789 Jungle Path, Bharatpur 44200<br>
+                        <i class="fa-solid fa-phone me-1"></i> +977-56-5559012</p>
+                    </div>
+                    
+                    <hr>
+                    
+                    <h6 class="mb-3">General Inquiries</h6>
+                    <p><i class="fa-solid fa-envelope me-1"></i> info@pawconnect.org.np</p>
+                    <p><i class="fa-solid fa-globe me-1"></i> www.pawconnect.org.np</p>
+                    
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- RIGHT SIDE: Contact Form -->
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Send Us a Message</h5>
+                    
+                    <!-- FORM START -->
+                    <form method="POST" action="#contact">
+                        {% csrf_token %}
+
+                        <!-- Success / Error Messages -->
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <input type="text" name="name" class="form-control" placeholder="Your Name"
+                                    value="{{ contact_form.name.value|default_if_none:'' }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" name="email" class="form-control" placeholder="Email"
+                                    value="{{ contact_form.email.value|default_if_none:'' }}" required>
+                            </div>
+                            <div class="col-12">
+                                <input type="text" name="subject" class="form-control" placeholder="Subject"
+                                    value="{{ contact_form.subject.value|default_if_none:'' }}">
+                            </div>
+<div class="col-12">
+    <select name="regarding" class="form-select" required>
+        <option value="">-- Select Regarding --</option>
+        <option value="adoption" {% if contact_form.data.regarding == "adoption" %}selected{% endif %}>Adoption Inquiry</option>
+        <option value="volunteer" {% if contact_form.data.regarding == "volunteer" %}selected{% endif %}>Volunteer Information</option>
+        <option value="donation" {% if contact_form.data.regarding == "donation" %}selected{% endif %}>Donation Question</option>
+        <option value="general" {% if contact_form.data.regarding == "general" %}selected{% endif %}>General Question</option>
+        <option value="other" {% if contact_form.data.regarding == "other" %}selected{% endif %}>Other</option>
+    </select>
+</div>
+
+                            <div class="col-12">
+                                <textarea name="message" class="form-control" rows="5" placeholder="Your Message" required>{{ contact_form.message.value }}</textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-theme w-100">
+                                    <i class="fa-solid fa-paper-plane"></i> Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- FORM END -->
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h5><i class="fa-solid fa-link"></i> Quick Links</h5>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="{% url 'adoption_section' %}">Adopt a Pet</a></li>
+                        <li><a href="#sos">Rescue SOS</a></li>
+                        <li><a href="{% url 'volunteer_apply' %}">Volunteer</a></li>
+                        <li><a href="{% url 'donate' %}">Donate</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h5><i class="fa-solid fa-heart"></i> Get Involved</h5>
+                    <ul>
+                        <li><a href="{% url 'adoption_section' %}">Available Pets</a></li>
+                        <li><a href="{% url 'volunteer_apply' %}">Become a Volunteer</a></li>
+                        <li><a href="{% url 'volunteer_apply' %}">Foster Care Program</a></li>
+                        <li><a href="{% url 'donate' %}">Make a Donation</a></li>
+                        <li><a href="{% url 'donate' %}">Sponsor an Animal</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h5><i class="fa-solid fa-phone"></i> Contact Us</h5>
+                    <ul>
+                        <li><a href="mailto:info@pawconnect.org"><i class="fa-solid fa-envelope"></i> info@pawconnect.org</a></li>
+                        <li><a href="tel:+977-1-4444444"><i class="fa-solid fa-phone"></i> +977-1-4444444</a></li>
+                        <li><a href="#"><i class="fa-solid fa-location-dot"></i> Kathmandu, Nepal</a></li>
+                        <li><a href="#">24/7 Rescue Hotline</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h5><i class="fa-solid fa-share-nodes"></i> Follow Us</h5>
+                    <div class="social-icons">
+                        <a href="https://facebook.com/pawconnect" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/pawconnect" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://twitter.com/pawconnect" target="_blank" rel="noopener"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="https://youtube.com/pawconnect" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 PawConnect Animal Rescue. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+                <p class="small">PawConnect is a registered 501(c)(3) nonprofit organization. Donations are tax-deductible.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="btn btn-theme btn-lg back-to-top" id="backToTop"><i class="fa-solid fa-arrow-up"></i></a>
+    <!-- ChatBox Section -->
+    {% comment %} <div id="chatboxIcon"
+        style="position:fixed;bottom:30px;right:30px;z-index:1050;cursor:pointer;background: #20c997;color:#fff;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+        <i class="fa-solid fa-comments fa-2x"></i>
+    </div>
+
+    <!-- Chatbox Placeholder -->
+    <div id="chatboxContainer"
+        style="position:fixed;bottom:100px;right:30px;z-index:1060;width:320px;max-width:90vw;background:#fff;border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,0.25);display:none;flex-direction:column;">
+        <div
+            style="background:#20c997;color:#fff;padding:12px 16px;border-top-left-radius:12px;border-top-right-radius:12px;display:flex;align-items:center;justify-content:space-between;">
+            <span><i class="fa-solid fa-comments"></i> Chat Support</span>
+            <span id="closeChatbox" style="cursor:pointer;font-size:20px;">&times;</span>
+        </div>
+        <div style="padding:16px;flex:1;">
+            <div id="chatMessages"
+                style="height:250px;width:auto;font-size:14px;color:#333;margin-bottom:10px;background:#f7f7f7;border-radius:6px;padding:8px;">
+                How can we help you?</div>
+            <form id="chatForm" style="display:flex;">
+                <input type="text" id="chatInput" class="form-control" placeholder="Type your message..."
+                    style="flex:1;margin-right:8px;">
+                <button type="submit" class="btn btn-theme">Send</button>
+            </form>
+        </div>
+    </div> {% endcomment %}
+
+    {% comment %} <!-- ChatBox Section -->
+    <div id="chatboxIcon"
+        style="position:fixed;bottom:30px;right:30px;z-index:1050;cursor:pointer;background: #20c997;color:#fff;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+        <i class="fa-solid fa-comments fa-2x"></i>
+    </div> {% endcomment %}
+
+ <!-- Chatbox Toggle Button -->
+<div id="chat-toggle" class="chat-toggle" style="position:fixed!important;bottom:30px!important;right:30px!important;width:60px!important;height:60px!important;min-width:60px!important;max-width:60px!important;z-index:99999!important;border-radius:12px!important;background:linear-gradient(135deg,#20c997,#17a589)!important;display:flex!important;align-items:center!important;justify-content:center!important;cursor:pointer!important;color:#fff!important;font-size:1.4rem!important;left:auto!important;top:auto!important;margin:0!important;padding:0!important;">
+  <i class="fa-solid fa-comments"></i>
+</div>
+
+<!-- Chat Window -->
+<div id="chat-container" class="chat-container hidden" style="position:fixed!important;bottom:100px!important;right:30px!important;width:360px!important;max-width:360px!important;min-width:360px!important;height:480px!important;z-index:9998!important;border-radius:16px!important;background:#fff!important;box-shadow:0 12px 40px rgba(0,0,0,0.15)!important;flex-direction:column!important;overflow:hidden!important;border:1px solid #e2e8f0!important;left:auto!important;top:auto!important;margin:0!important;padding:0!important;">
+    <!-- Header -->
+    <div class="chat-header">
+        <span><i class="fa-solid fa-robot"></i> PAW AI Assistant</span>
+        <div style="display:flex;gap:15px;align-items:center;">
+            <i class="fa-solid fa-trash-can" id="clear-chat-btn" style="cursor:pointer;font-size:1rem;transition:transform 0.2s;" title="Clear chat history"></i>
+            <i class="fa-solid fa-times" id="close-chat-btn" style="cursor:pointer;font-size:1.2rem;transition:transform 0.2s;" title="Close chat"></i>
+        </div>
+    </div>
+
+  <!-- Messages -->
+  <div id="chat-box" class="chat-box">
+    <div class="message bot">👋 Hello! I'm PAW AI Assistant. How can I help you today?</div>
+  </div>
+
+  <!-- Input Area -->
+  <form id="chatForm" class="input-container">
+    <input type="text" id="user-input" placeholder="Type your message...">
+    <button type="submit" id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+  </form>
+</div>
+
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        // Auto-dismiss toast notifications
+        document.addEventListener('DOMContentLoaded', function() {
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+            var toastList = toastElList.map(function(toastEl) {
+                var toast = new bootstrap.Toast(toastEl, {
+                    autohide: true,
+                    delay: 3000
+                });
+                toast.show();
+                return toast;
+            });
+        });
+
+        // Back to top button
+        window.addEventListener('scroll', function() {
+            var backToTop = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+        
+        document.getElementById('backToTop').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+// Ensure chat starts hidden
+// document.addEventListener('DOMContentLoaded', function() {
+//     document.getElementById('chat-container').classList.add('hidden');
+// });
+
+const API_URL = "http://127.0.0.1:8001/chat/"; // Backend URL
+let conversationId = localStorage.getItem("conversationId") || "convo-" + Date.now();
+localStorage.setItem("conversationId", conversationId);
+
+// Load chat history on page load
+window.addEventListener("DOMContentLoaded", () => {
+  loadChatHistory();
+});
+
+// Save message to localStorage
+function saveChatMessage(sender, text) {
+  const chatHistory = JSON.parse(localStorage.getItem("chatHistory") || "[]");
+  chatHistory.push({ sender, text, timestamp: Date.now() });
+  // Keep only last 50 messages
+  if (chatHistory.length > 50) {
+    chatHistory.shift();
+  }
+  localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+}
+
+// Load chat history from localStorage
+function loadChatHistory() {
+  const chatHistory = JSON.parse(localStorage.getItem("chatHistory") || "[]");
+  const chatBox = document.getElementById("chat-box");
+  
+  // Clear welcome message if there's history
+  if (chatHistory.length > 0) {
+    chatBox.innerHTML = "";
+  }
+  
+  // Load all messages
+  chatHistory.forEach(msg => {
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message ${msg.sender}`;
+    messageDiv.textContent = msg.text;
+    chatBox.appendChild(messageDiv);
+  });
+  
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// Clear chat history (optional function you can call)
+function clearChatHistory() {
+  localStorage.removeItem("chatHistory");
+  localStorage.removeItem("conversationId");
+  const chatBox = document.getElementById("chat-box");
+  chatBox.innerHTML = '<div class="message bot">👋 Hello! I\'m PAW AI Assistant. How can I help you today?</div>';
+}
+
+// Toggle chat window - ONLY on button click
+const chatToggle = document.getElementById("chat-toggle");
+const chatContainer = document.getElementById("chat-container");
+
+// Open/Close chat when clicking the chat button
+chatToggle.addEventListener("click", (e) => {
+  e.stopPropagation();
+  chatContainer.classList.toggle("hidden");
+});
+
+// Close chat when clicking the X button (use setTimeout to ensure DOM is ready)
+setTimeout(() => {
+  const closeBtn = document.getElementById("close-chat-btn");
+  const clearBtn = document.getElementById("clear-chat-btn");
+  
+  if (closeBtn) {
+    closeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      chatContainer.classList.add("hidden");
+      console.log("Chat closed via X button");
+    });
+    
+    // Add hover effect to close button
+    closeBtn.addEventListener("mouseenter", () => {
+      closeBtn.style.transform = "rotate(90deg)";
+    });
+    
+    closeBtn.addEventListener("mouseleave", () => {
+      closeBtn.style.transform = "rotate(0deg)";
+    });
+  }
+  
+  if (clearBtn) {
+    clearBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (confirm("Are you sure you want to clear the chat history?")) {
+        clearChatHistory();
+      }
+    });
+    
+    // Add hover effect to clear button
+    clearBtn.addEventListener("mouseenter", () => {
+      clearBtn.style.transform = "scale(1.1)";
+      clearBtn.style.color = "#ef4444";
+    });
+    
+    clearBtn.addEventListener("mouseleave", () => {
+      clearBtn.style.transform = "scale(1)";
+      clearBtn.style.color = "#fff";
+    });
+  }
+}, 100);
+
+// Send button click
+                document.getElementById("send-btn").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    sendMessage();
+                });
+        
+                // Form submit
+                document.getElementById("chatForm").addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    sendMessage();
+                });
+
+// Enter key press
+document.getElementById("user-input").addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    sendMessage();
+  }
+});
+
+async function sendMessage() {
+  const input = document.getElementById("user-input");
+  const userMessage = input.value.trim();
+  if (!userMessage) return;
+
+  appendMessage("user", userMessage);
+  input.value = "";
+  
+  // Show typing indicator
+  const typingIndicator = showTypingIndicator();
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: userMessage,
+        role: "user",
+        conversation_id: conversationId
+      })
+    });
+
+    const data = await response.json();
+    
+    // Remove typing indicator
+    removeTypingIndicator(typingIndicator);
+    
+    if (response.ok) {
+      appendMessage("bot", data.response);
+    } else {
+      appendMessage("bot", "⚠️ Error: " + data.detail);
+    }
+  } catch (error) {
+    removeTypingIndicator(typingIndicator);
+    appendMessage("bot", "⚠️ Server not reachable!");
+  }
+}
+
+function showTypingIndicator() {
+    const chatBox = document.getElementById("chat-box");
+    const typingDiv = document.createElement("div");
+    typingDiv.className = "typing-indicator";
+    typingDiv.id = "typing-indicator";
+    typingDiv.innerHTML = "<span></span><span></span><span></span>";
+    chatBox.appendChild(typingDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    return typingDiv;
+}
+
+function removeTypingIndicator(indicator) {
+    if (indicator && indicator.parentNode) {
+        indicator.parentNode.removeChild(indicator);
+    }
+}
+
+function appendMessage(sender, text) {
+    const chatBox = document.getElementById("chat-box");
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message ${sender}`;
+    messageDiv.textContent = text;
+    chatBox.appendChild(messageDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    
+    // Save to localStorage
+    saveChatMessage(sender, text);
+}
+    </script>
+</html>
