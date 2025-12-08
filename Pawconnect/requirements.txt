@@ -1,9 +1,20 @@
-fastapi
-uvicorn
-pydantic
-langchain
-langchain_community
-langchain-core
-langchain-groq
-groq
-python-dotenv
+Django>=5.1.5
+psycopg2-binary>=2.9.9
+gunicorn>=21.2.0
+whitenoise>=6.6.0
+python-dotenv>=1.0.0
+Pillow>=10.0.0
+dj-database-url>=2.1.0
+
+# FastAPI and Chatbot
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+langchain>=0.1.0
+langchain-community>=0.0.20
+langchain-core>=0.1.23
+langchain-groq>=0.0.1
+groq>=0.4.2
+
+# Email
+sendgrid>=6.11.0

@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path(f'{settings.ADMIN_URL}/', admin.site.urls),  # Custom admin URL for security
     path('', accounts_views.base, name='home'),          # ← home page at /
     path('accounts/', include('accounts.urls')),
     path('donate/', include('donation.urls')),  # ✅ new
