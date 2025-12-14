@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 import random
 from adopt.models import Pet
@@ -13,9 +13,33 @@ def generate_otp():
     return str(random.randint(100000, 999999))
 
 def send_otp_email(email, otp):
-    subject = 'Your OTP for Paw connect'
-    message = f'Your OTP is: {otp}'
-    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+    """Send OTP to user and notify admin"""
+    subject = 'Your OTP for PawConnect'
+    html_content = f"""
+    <html>
+        <body style="font-family: Arial, sans-serif; padding: 20px;">
+            <h2 style="color: #FF6B6B;">🐾 PawConnect - OTP Verification</h2>
+            <p>Hello!</p>
+            <p>Your One-Time Password (OTP) for account verification is:</p>
+            <h1 style="background: #FFD93D; padding: 20px; text-align: center; border-radius: 10px; color: #333;">{otp}</h1>
+            <p>This OTP is valid for 10 minutes.</p>
+            <p>If you didn't request this, please ignore this email.</p>
+            <br>
+            <p style="color: #666;">Best regards,<br><strong>PawConnect Team</strong></p>
+        </body>
+    </html>
+    """
+    text_content = f'Your OTP for PawConnect is: {otp}\n\nThis OTP is valid for 10 minutes.'
+    
+    # Send OTP to user
+    msg = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL, [email])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+    
+    # Notify admin about new signup
+    admin_subject = f'New Signup: {email}'
+    admin_message = f'A new user is signing up:\n\nEmail: {email}\nOTP sent: {otp}\nTime: {settings.TIME_ZONE}'
+    send_mail(admin_subject, admin_message, settings.DEFAULT_FROM_EMAIL, [settings.DEFAULT_FROM_EMAIL])
 
 # ---------- Base ----------
 def base(request):
