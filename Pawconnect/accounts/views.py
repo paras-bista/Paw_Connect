@@ -88,8 +88,15 @@ def signup(request):
         request.session['temp_user_password'] = password
         request.session['otp'] = otp
 
-        # Send OTP email
-        send_otp_email(email, otp)
+        # Try to send OTP email (will fail on PythonAnywhere free tier)
+        try:
+            send_otp_email(email, otp)
+            messages.success(request, 'OTP has been sent to your email.')
+        except Exception as e:
+            # If email fails, show OTP on screen (PythonAnywhere free tier limitation)
+            messages.warning(request, f'Email service unavailable. Your OTP is: {otp}')
+            print(f"Email send failed: {e}")
+            print(f"OTP for {email}: {otp}")
 
         # Show success message
         # messages.success(request, 'OTP has been sent to your email.')
@@ -138,8 +145,17 @@ def resend_otp(request):
     if email:
         otp = generate_otp()
         request.session['otp'] = otp
-        send_otp_email(email, otp)
-        messages.success(request, 'OTP has been resent to your email.')
+        
+        # Try to send OTP email
+        try:
+            send_otp_email(email, otp)
+            messages.success(request, 'OTP has been resent to your email.')
+        except Exception as e:
+            # If email fails, show OTP on screen
+            messages.warning(request, f'Email service unavailable. Your OTP is: {otp}')
+            print(f"Resend email failed: {e}")
+            print(f"Resent OTP for {email}: {otp}")
+        
         return redirect('verify_otp')  # URL name
     else:
         messages.error(request, 'You need to signup first.')
