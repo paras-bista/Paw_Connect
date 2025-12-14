@@ -36,10 +36,14 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 # CSRF Settings
-CSRF_TRUSTED_ORIGINS = os.getenv(
-    'CSRF_TRUSTED_ORIGINS',
-    'http://127.0.0.1:8000,http://localhost:8000'
-).split(',')
+csrf_origins = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://127.0.0.1:8000,http://localhost:8000')
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_origins.split(',') if origin.strip()]
+
+# Add PythonAnywhere domain if not in DEBUG mode
+if not DEBUG and 'pythonanywhere.com' in ','.join(ALLOWED_HOSTS):
+    pythonanywhere_domain = f"https://{[h for h in ALLOWED_HOSTS if 'pythonanywhere.com' in h][0]}"
+    if pythonanywhere_domain not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(pythonanywhere_domain)
 
 CSRF_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_HTTPONLY = False
