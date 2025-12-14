@@ -110,8 +110,11 @@ WSGI_APPLICATION = 'Pawconnect.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# Use PostgreSQL in production (Azure), SQLite in development
+# Database Configuration
+# Supports: MySQL (PythonAnywhere), PostgreSQL (Azure), SQLite (Local)
+
 DATABASE_URL = os.getenv('DATABASE_URL')
+DB_NAME = os.getenv('DB_NAME')
 
 if DATABASE_URL:
     # Azure/Production: Use PostgreSQL
@@ -121,6 +124,20 @@ if DATABASE_URL:
             conn_max_age=600,
             ssl_require=True
         )
+    }
+elif DB_NAME:
+    # PythonAnywhere: Use MySQL
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': DB_NAME,
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST'),
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+            }
+        }
     }
 else:
     # Local Development: Use SQLite
