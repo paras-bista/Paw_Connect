@@ -67,7 +67,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'adopt',
     'volunteer',
-    'backend',
+    # 'backend',  # FastAPI chatbot - not a Django app
     # 'newsfeed',
 ]
 
