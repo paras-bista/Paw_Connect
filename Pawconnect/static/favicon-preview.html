@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert SVG to ICO - Paw Connect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 { text-align: center; margin-bottom: 30px; }
+        .preview {
+            text-align: center;
+            margin: 30px 0;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+        }
+        .instructions {
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .instructions ol {
+            line-height: 1.8;
+        }
+        code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .note {
+            background: rgba(255,235,59,0.2);
+            border-left: 4px solid #FFD93D;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐾 Paw Connect Favicon</h1>
+        
+        <div class="preview">
+            <h2 style="color: #333;">Favicon Preview</h2>
+            <img src="favicon.svg" alt="Paw Connect Favicon" width="128" height="128">
+        </div>
+
+        <div class="instructions">
+            <h3>📋 How to Add Favicon to Your Website:</h3>
+            <ol>
+                <li>Upload <code>favicon.svg</code> to: <code>/home/parashbista18/Paw_Connect/Pawconnect/static/</code></li>
+                <li>Run: <code>python manage.py collectstatic --noinput</code></li>
+                <li>Add to your base template <code>&lt;head&gt;</code> section:
+                    <pre style="background: rgba(0,0,0,0.3); padding: 15px; margin-top: 10px; border-radius: 5px; overflow-x: auto;">
+&lt;link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}"&gt;
+&lt;link rel="shortcut icon" href="{% static 'favicon.svg' %}"&gt;</pre>
+                </li>
+                <li>Reload your web app from PythonAnywhere Web tab</li>
+            </ol>
+        </div>
+
+        <div class="note">
+            <strong>✨ Favicon Features:</strong>
+            <ul>
+                <li>🐾 White paw print on gradient background (orange to yellow)</li>
+                <li>❤️ Small heart accent for the "connect" aspect</li>
+                <li>📱 SVG format - scales perfectly on all devices</li>
+                <li>🎨 Modern gradient design matching pet care theme</li>
+            </ul>
+        </div>
+
+        <div class="note">
+            <strong>🔄 Alternative: Convert to ICO for older browsers</strong>
+            <p>Use online tool: <a href="https://convertio.co/svg-ico/" target="_blank" style="color: #FFD93D;">convertio.co/svg-ico/</a></p>
+            <p>Then upload both <code>favicon.svg</code> and <code>favicon.ico</code></p>
+        </div>
+    </div>
+</body>
+</html>

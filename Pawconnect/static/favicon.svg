@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Gradient background -->
+  <defs>
+    <linearGradient id="pawGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFD93D;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF5757;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF8585;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Circular background -->
+  <circle cx="32" cy="32" r="30" fill="url(#pawGradient)"/>
+  
+  <!-- Paw print -->
+  <g fill="#FFFFFF">
+    <!-- Main pad (bottom) -->
+    <ellipse cx="32" cy="38" rx="8" ry="10" />
+    
+    <!-- Toe pads -->
+    <ellipse cx="22" cy="26" rx="5" ry="6" transform="rotate(-20 22 26)"/>
+    <ellipse cx="32" cy="22" rx="5" ry="6" />
+    <ellipse cx="42" cy="26" rx="5" ry="6" transform="rotate(20 42 26)"/>
+    <ellipse cx="27" cy="30" rx="4.5" ry="5.5" transform="rotate(-10 27 30)"/>
+  </g>
+  
+  <!-- Small heart accent -->
+  <path d="M 48 14 C 46 12 43 12 41 14 C 39 12 36 12 34 14 C 32 16 32 19 34 21 L 41 28 L 48 21 C 50 19 50 16 48 14 Z" 
+        fill="url(#heartGradient)" opacity="0.9"/>
+</svg>
