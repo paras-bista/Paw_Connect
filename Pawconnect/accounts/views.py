@@ -109,10 +109,15 @@ def verify_otp(request):
         username = request.session.get('temp_user_username')
         password = request.session.get('temp_user_password')
 
-        # Debug logging (remove after testing)
-        print(f"DEBUG - Entered OTP: '{entered_otp}'")
-        print(f"DEBUG - Session OTP: '{session_otp}'")
+        # Debug logging
+        print(f"DEBUG - Entered OTP: '{entered_otp}' (length: {len(entered_otp)})")
+        print(f"DEBUG - Session OTP: '{session_otp}' (length: {len(session_otp)})")
         print(f"DEBUG - Email: {email}, Username: {username}")
+        print(f"DEBUG - OTP Match: {entered_otp == session_otp}")
+        print(f"DEBUG - Session data exists: email={bool(email)}, username={bool(username)}, password={bool(password)}")
+
+        if not session_otp:
+            return render(request, 'accounts/verify_otp.html', {'error': 'Session expired. Please signup again.'})
 
         if entered_otp == session_otp and email and username and password:
             # Check if user already exists
