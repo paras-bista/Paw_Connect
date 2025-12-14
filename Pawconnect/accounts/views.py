@@ -106,6 +106,11 @@ def verify_otp(request):
         username = request.session.get('temp_user_username')
         password = request.session.get('temp_user_password')
 
+        # Debug logging (remove after testing)
+        print(f"DEBUG - Entered OTP: '{entered_otp}'")
+        print(f"DEBUG - Session OTP: '{session_otp}'")
+        print(f"DEBUG - Email: {email}, Username: {username}")
+
         if entered_otp == session_otp and email and username and password:
             # Check if user already exists
             user = User.objects.filter(email=email).first()
