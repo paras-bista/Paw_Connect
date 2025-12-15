@@ -67,7 +67,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_django',  # Google OAuth
+    # 'social_django',  # Google OAuth - commented out for now
     'accounts',  # Custom app for accounts
     'pets',  # Custom app for pet management
     'crispy_forms',  # For crispy forms
