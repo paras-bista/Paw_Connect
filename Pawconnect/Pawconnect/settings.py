@@ -90,12 +90,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware',  # Google OAuth
+    # 'social_django.middleware.SocialAuthExceptionMiddleware',  # Google OAuth - disabled
 ]
 
 # Authentication Backends
 AUTHENTICATION_BACKENDS = [
-    'social_core.backends.google.GoogleOAuth2',  # Google OAuth2
+    # 'social_core.backends.google.GoogleOAuth2',  # Google OAuth2 - disabled
     'django.contrib.auth.backends.ModelBackend',  # Default Django auth
 ]
 
@@ -126,8 +126,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',  # Google OAuth
-                'social_django.context_processors.login_redirect',  # Google OAuth
+                # 'social_django.context_processors.backends',  # Google OAuth - disabled
+                # 'social_django.context_processors.login_redirect',  # Google OAuth - disabled
             ],
         },
     },
