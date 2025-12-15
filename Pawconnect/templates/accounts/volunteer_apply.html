@@ -32,140 +32,278 @@
             font-weight: 900;
         }
 
-        .card {
+        .volunteer-card {
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .volunteer-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #20c997 0%, #17a589 100%);
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .form-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #20c997;
+            font-size: 1.1rem;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .form-control-modern, .form-select-modern {
+            width: 100%;
+            padding: 15px 18px 15px 50px;
+            font-size: 1rem;
+            border: 2px solid #e2e8f0;
             border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-        }
-
-        .btn-theme {
-            background-color: #20c997;
-            color: white;
-            border-radius: 8px;
-            border: none;
             transition: all 0.3s ease;
+            background: #f8fafc;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .btn-theme:hover {
-            background-color: #17a589;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(32,201,151,0.2);
-        }
-
-        .form-control, .form-select {
-            border-radius: 8px;
-            border: 1.5px solid #cbd5e1;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus, .form-select:focus {
+        .form-control-modern:focus, .form-select-modern:focus {
             border-color: #20c997;
-            box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.1);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(32, 201, 151, 0.1);
+            outline: none;
+        }
+
+        .form-control-modern::placeholder {
+            color: #94a3b8;
+        }
+
+        .btn-submit-modern {
+            background: linear-gradient(135deg, #20c997 0%, #17a589 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 8px 20px rgba(32, 201, 151, 0.25);
+        }
+
+        .btn-submit-modern:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(32, 201, 151, 0.35);
+        }
+
+        .form-check-modern {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .form-check-modern:hover {
+            background: white;
+            border-color: #20c997;
+        }
+
+        .form-check-modern input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #20c997;
+        }
+
+        .form-check-modern label {
+            cursor: pointer;
+            margin: 0;
+            color: #475569;
+            font-size: 1rem;
+        }
+
+        textarea.form-control-modern {
+            resize: vertical;
+            min-height: 120px;
+            padding: 15px 18px;
+        }
+
+        .input-group-modern {
+            position: relative;
+        }
+
+        .input-group-modern .input-prefix {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-weight: 600;
+            font-size: 1rem;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .input-group-modern input {
+            padding-left: 65px;
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <!-- Modern Navbar -->
+    <nav class="navbar-modern">
       <div class="container">
-        <a class="navbar-brand" href="/"><i class="fa-solid fa-paw"></i> PawConnect</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="/"><i class="fa-solid fa-house"></i> Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/#adoption"><i class="fa-solid fa-dog"></i> Adopt</a></li>
-            <li class="nav-item"><a class="nav-link" href="/#sos"><i class="fa-solid fa-triangle-exclamation"></i> Rescue SOS</a></li>
-            <li class="nav-item"><a class="nav-link" href="/#volunteer"><i class="fa-solid fa-hand-holding-heart"></i> Volunteer</a></li>
-            <li class="nav-item"><a class="nav-link" href="/#contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'donate' %}">
-                <i class="fa-solid fa-hand-holding-dollar"></i> Donate
-              </a>
-            </li>
-            {% if user.is_authenticated %}
-            <li class="nav-item me-2">
-              <a class="nav-link text-white" href="{% url 'profile' %}">
-                <i class="fa-solid fa-user-circle"></i> {{ user.username }}
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-danger btn-sm ms-2" href="{% url 'logout' %}">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-              </a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-              <a class="btn btn-theme btn-sm ms-2" href="{% url 'login' %}">
-                <i class="fa-solid fa-user"></i> Login
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-outline-theme btn-sm ms-2" href="{% url 'signup' %}">
-                <i class="fa-solid fa-user-plus"></i> Sign Up
-              </a>
-            </li>
-            {% endif %}
-          </ul>
+        <a href="/" class="navbar-brand-modern">
+          <i class="fa-solid fa-paw"></i>
+          <span>PawConnect</span>
+        </a>
+        <ul class="navbar-nav-modern">
+          <li><a href="/" class="nav-link-modern">HOME</a></li>
+          <li><a href="{% url 'adoption_section' %}" class="nav-link-modern">ADOPT</a></li>
+          <li><a href="/#sos" class="nav-link-modern">RESCUE</a></li>
+          <li><a href="{% url 'volunteer_apply' %}" class="nav-link-modern active">VOLUNTEER</a></li>
+          <li><a href="{% url 'donate' %}" class="nav-link-modern">DONATE</a></li>
+        </ul>
+        <div class="navbar-actions">
+          {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}" class="icon-btn"><i class="fa-solid fa-user"></i></a>
+            <a href="{% url 'logout' %}" class="btn-donate">Logout</a>
+          {% else %}
+            <a href="{% url 'login' %}" class="icon-btn"><i class="fa-solid fa-user"></i></a>
+            <a href="{% url 'signup' %}" class="btn-donate">Sign Up</a>
+          {% endif %}
         </div>
       </div>
     </nav>
-    <section id="volunteer" class="container my-5 py-5">
-        <h2 class="section-title"><i class="fa-solid fa-hand-holding-heart"></i> Get Involved</h2>
-        <p class="text-center mb-5">Join our community of animal lovers making a difference in animals' lives every day.</p>
+    <section id="volunteer" class="container my-5 py-5" style="max-width: 1200px;">
+        <!-- Section Header -->
+        <div class="text-center mb-5">
+            <div style="display: inline-flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                <i class="fa-solid fa-hand-holding-heart" style="font-size: 3rem; color: #20c997;"></i>
+                <h2 class="section-title" style="margin: 0; font-size: 2.5rem;">Get Involved</h2>
+            </div>
+            <div style="width: 80px; height: 4px; background: #20c997; margin: 0 auto 20px;"></div>
+            <p style="font-size: 1.05rem; color: #64748b; max-width: 800px; margin: 0 auto;">
+                Join our community of animal lovers making a difference in animals' lives every day.
+            </p>
+        </div>
 
-        <div class="card p-4">
-            <h5 class="card-title mb-4"><i class="fa-solid fa-hand-holding-dollar"></i> Volunteer Application</h5>
-            <form method="POST" class="row g-3">
-                <!-- CSRF token for Django -->
+        <!-- Volunteer Application Form -->
+        <div class="volunteer-card" style="max-width: 900px; margin: 0 auto; padding: 60px 50px;">
+            <div style="margin-bottom: 40px; text-align: center;">
+                <div style="display: inline-flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #e6f9f3 0%, #d1f4ea 100%); padding: 12px 24px; border-radius: 50px; margin-bottom: 15px;">
+                    <i class="fa-solid fa-file-pen" style="color: #20c997; font-size: 1.3rem;"></i>
+                    <h5 style="margin: 0; font-size: 1.3rem; font-weight: 700; color: #1a374d;">Volunteer Application</h5>
+                </div>
+                <p style="color: #64748b; font-size: 0.95rem; margin: 0;">Fill out the form below to join our volunteer team</p>
+            </div>
+            
+            <form method="POST">
                 {% csrf_token %}
-                <div class="col-md-6">
-                    <input type="text" name="full_name" class="form-control" placeholder="Full Name" required>
-                </div>
-                <div class="col-md-6">
-                    <input type="email" name="email" class="form-control" placeholder="Email" required>
-                </div>
-                <div class="col-12">
-                    <select name="action_type" class="form-select" required>
-                        <option value="">I want to...</option>
-                        <option value="volunteer">Volunteer</option>
-                        <option value="foster">Become a Foster</option>
-                        <option value="donate">Make a Donation</option>
-                        <option value="both">Volunteer & Donate</option>
-                    </select>
-                </div>
-                <div class="col-12">
-                    <select name="interest_area" class="form-select" required>
-                        <option value="">Choose area of interest</option>
-                        <option value="rescue">Animal Rescue</option>
-                        <option value="vaccination">Vaccination Campaign</option>
-                        <option value="awareness">Education & Awareness</option>
-                        <option value="events">Adoption Events</option>
-                        <option value="fundraising">Fundraising</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div class="col-12">
-                    <div class="input-group">
-                        <span class="input-group-text">NPR</span>
-                        <input type="number" name="donation_amount" class="form-control" placeholder="Donation Amount (Optional)">
+                
+                <div class="row g-4">
+                    <!-- Full Name -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <i class="fa-solid fa-user form-icon"></i>
+                            <input type="text" name="full_name" class="form-control-modern" 
+                                   placeholder="Full Name" required>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="subscribe_newsletter" id="newsletter">
-                        <label class="form-check-label" for="newsletter">
-                            Subscribe to our newsletter
-                        </label>
+                    
+                    <!-- Email -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <i class="fa-solid fa-envelope form-icon"></i>
+                            <input type="email" name="email" class="form-control-modern" 
+                                   placeholder="Email Address" required>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12">
-                    <textarea name="message" class="form-control" placeholder="Message (Optional)" rows="3"></textarea>
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-theme w-100" style="background-color: #20c997; color: #fff;"><i class="fa-solid fa-hand-holding-heart"></i> Submit Application</button>
+                    
+                    <!-- I want to... -->
+                    <div class="col-12">
+                        <div class="form-group">
+                            <i class="fa-solid fa-bullseye form-icon"></i>
+                            <select name="action_type" class="form-select-modern" required>
+                                <option value="">I want to...</option>
+                                <option value="volunteer">🙋 Volunteer</option>
+                                <option value="foster">🏠 Become a Foster</option>
+                                <option value="donate">💰 Make a Donation</option>
+                                <option value="both">❤️ Volunteer & Donate</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Area of Interest -->
+                    <div class="col-12">
+                        <div class="form-group">
+                            <i class="fa-solid fa-heart form-icon"></i>
+                            <select name="interest_area" class="form-select-modern" required>
+                                <option value="">Choose area of interest</option>
+                                <option value="rescue">🐾 Animal Rescue</option>
+                                <option value="vaccination">💉 Vaccination Campaign</option>
+                                <option value="awareness">📢 Education & Awareness</option>
+                                <option value="events">🎉 Adoption Events</option>
+                                <option value="fundraising">💵 Fundraising</option>
+                                <option value="other">✨ Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Donation Amount -->
+                    <div class="col-12">
+                        <div class="form-group input-group-modern">
+                            <i class="fa-solid fa-coins form-icon"></i>
+                            <span class="input-prefix">NPR</span>
+                            <input type="number" name="donation_amount" class="form-control-modern" 
+                                   placeholder="Donation Amount (Optional)">
+                        </div>
+                    </div>
+                    
+                    <!-- Newsletter -->
+                    <div class="col-12">
+                        <div class="form-check-modern">
+                            <input type="checkbox" name="subscribe_newsletter" id="newsletter">
+                            <label for="newsletter">
+                                <i class="fa-solid fa-bell" style="color: #20c997; margin-right: 8px;"></i>
+                                Subscribe to our newsletter for updates and stories
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Message -->
+                    <div class="col-12">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <i class="fa-solid fa-message form-icon" style="top: 25px;"></i>
+                            <textarea name="message" class="form-control-modern" placeholder="Tell us why you want to volunteer... (Optional)"></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="col-12" style="margin-top: 35px;">
+                        <button type="submit" class="btn-submit-modern">
+                            <i class="fa-solid fa-hand-holding-heart" style="font-size: 1.2rem;"></i>
+                            <span>Submit Application</span>
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -198,25 +336,114 @@
 
     <script>
 const API_URL = "http://127.0.0.1:8001/chat/";
-let conversationId = "my-convo-1";
+let conversationId = localStorage.getItem("conversationId") || "convo-" + Date.now();
+localStorage.setItem("conversationId", conversationId);
 
-    // Chat starts hidden by default via HTML classconst chatToggle = document.getElementById("chat-toggle");
+// Load chat history on page load
+window.addEventListener("DOMContentLoaded", () => {
+  loadChatHistory();
+});
+
+// Save message to localStorage
+function saveChatMessage(sender, text) {
+  const chatHistory = JSON.parse(localStorage.getItem("chatHistory") || "[]");
+  chatHistory.push({ sender, text, timestamp: Date.now() });
+  if (chatHistory.length > 50) {
+    chatHistory.shift();
+  }
+  localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+}
+
+// Load chat history from localStorage
+function loadChatHistory() {
+  const chatHistory = JSON.parse(localStorage.getItem("chatHistory") || "[]");
+  const chatBox = document.getElementById("chat-box");
+  
+  if (chatHistory.length > 0) {
+    chatBox.innerHTML = "";
+  }
+  
+  chatHistory.forEach(msg => {
+    appendMessage(msg.sender, msg.text, false);
+  });
+  
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// Clear chat history
+function clearChatHistory() {
+  localStorage.removeItem("chatHistory");
+  localStorage.removeItem("conversationId");
+  conversationId = "convo-" + Date.now();
+  localStorage.setItem("conversationId", conversationId);
+  const chatBox = document.getElementById("chat-box");
+  chatBox.innerHTML = '<div class="message bot">👋 Hello! I\'m PAW AI Assistant. How can I help you today?</div>';
+}
+
+// Toggle chat window
+const chatToggle = document.getElementById("chat-toggle");
 const chatContainer = document.getElementById("chat-container");
 
-chatToggle.addEventListener("click", () => {
+chatToggle.addEventListener("click", (e) => {
+  e.stopPropagation();
   chatContainer.classList.toggle("hidden");
 });
 
+// Close and clear buttons
+setTimeout(() => {
+  const closeBtn = document.getElementById("close-chat-btn");
+  const clearBtn = document.getElementById("clear-chat-btn");
+  
+  if (closeBtn) {
+    closeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      chatContainer.classList.add("hidden");
+    });
+    
+    closeBtn.addEventListener("mouseenter", () => {
+      closeBtn.style.transform = "rotate(90deg)";
+    });
+    
+    closeBtn.addEventListener("mouseleave", () => {
+      closeBtn.style.transform = "rotate(0deg)";
+    });
+  }
+  
+  if (clearBtn) {
+    clearBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (confirm("Are you sure you want to clear the chat history?")) {
+        clearChatHistory();
+      }
+    });
+    
+    clearBtn.addEventListener("mouseenter", () => {
+      clearBtn.style.transform = "scale(1.1)";
+      clearBtn.style.color = "#ef4444";
+    });
+    
+    clearBtn.addEventListener("mouseleave", () => {
+      clearBtn.style.transform = "scale(1)";
+      clearBtn.style.color = "#fff";
+    });
+  }
+}, 100);
+
+// Send button click
 document.getElementById("send-btn").addEventListener("click", function(e) {
   e.preventDefault();
   sendMessage();
 });
 
+// Form submit
 document.getElementById("chatForm").addEventListener("submit", function(e) {
   e.preventDefault();
   sendMessage();
 });
 
+// Enter key press
 document.getElementById("user-input").addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -231,6 +458,9 @@ async function sendMessage() {
 
   appendMessage("user", userMessage);
   input.value = "";
+  
+  // Show typing indicator
+  const typingIndicator = showTypingIndicator();
 
   try {
     const response = await fetch(API_URL, {
@@ -244,23 +474,105 @@ async function sendMessage() {
     });
 
     const data = await response.json();
+    
+    // Remove typing indicator
+    removeTypingIndicator(typingIndicator);
+    
     if (response.ok) {
       appendMessage("bot", data.response);
     } else {
       appendMessage("bot", "⚠️ Error: " + data.detail);
     }
   } catch (error) {
+    removeTypingIndicator(typingIndicator);
     appendMessage("bot", "⚠️ Server not reachable!");
   }
 }
 
-function appendMessage(sender, text) {
+function showTypingIndicator() {
+    const chatBox = document.getElementById("chat-box");
+    const typingDiv = document.createElement("div");
+    typingDiv.className = "typing-indicator";
+    typingDiv.id = "typing-indicator";
+    typingDiv.innerHTML = "<span></span><span></span><span></span>";
+    chatBox.appendChild(typingDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    return typingDiv;
+}
+
+function removeTypingIndicator(indicator) {
+    if (indicator && indicator.parentNode) {
+        indicator.parentNode.removeChild(indicator);
+    }
+}
+
+// Format bot response with markdown-like support
+function formatBotResponse(text) {
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    text = text.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
+    text = text.replace(/^[-•]\s+(.+)$/gm, '<li>$1</li>');
+    text = text.replace(/(<li>.*<\/li>\s*)+/gs, '<ul>$&</ul>');
+    text = text.replace(/\n(?![^<]*<\/ul>)/g, '<br>');
+    return text;
+}
+
+// Typing animation for bot messages
+async function typeMessage(element, text, speed = 30) {
+    const formattedText = formatBotResponse(text);
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = formattedText;
+    
+    if (formattedText === text) {
+        for (let i = 0; i < text.length; i++) {
+            element.textContent += text[i];
+            const chatBox = document.getElementById("chat-box");
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            if (['.', '!', '?'].includes(text[i])) {
+                await new Promise(resolve => setTimeout(resolve, 300));
+            } else if ([',', ';', ':'].includes(text[i])) {
+                await new Promise(resolve => setTimeout(resolve, 150));
+            } else {
+                await new Promise(resolve => setTimeout(resolve, speed));
+            }
+        }
+    } else {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        element.innerHTML = formattedText;
+    }
+    
+    const chatBox = document.getElementById("chat-box");
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function appendMessage(sender, text, animated = true) {
     const chatBox = document.getElementById("chat-box");
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${sender}`;
-    messageDiv.textContent = text;
-    chatBox.appendChild(messageDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    
+    if (sender === "user") {
+        messageDiv.textContent = text;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        saveChatMessage(sender, text);
+    } else {
+        chatBox.appendChild(messageDiv);
+        
+        if (animated) {
+            typeMessage(messageDiv, text).then(() => {
+                saveChatMessage(sender, text);
+            });
+        } else {
+            const formattedText = formatBotResponse(text);
+            if (formattedText !== text) {
+                messageDiv.innerHTML = formattedText;
+            } else {
+                messageDiv.textContent = text;
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    }
 }
     </script>
 

@@ -1,300 +1,208 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adopt {{ pet.name }}</title>
+  <title>Adopt {{ pet.name }} | PawConnect</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'accounts/main.css' %}">
 
   <style>
     body {
-    background: #f8f9fa; /* light gray background */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+      background: #f8fafc;
+      font-family: 'Poppins', sans-serif;
+    }
 
-.form-container {
-    max-width: 500px;
-    margin: auto;
-    background: #fff;
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-}
+    .adoption-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      position: relative;
+      overflow: hidden;
+      max-width: 800px;
+      margin: 0 auto;
+    }
 
-.form-container h2 {
-    font-weight: 600;
-    color: #333;
-}
+    .adoption-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #20c997 0%, #17a589 100%);
+    }
 
-.form-container form p {
-    margin-bottom: 15px;
-}
+    .form-group-modern {
+      position: relative;
+      margin-bottom: 24px;
+    }
 
-.form-container label {
-    font-weight: 500;
-    margin-bottom: 6px;
-    display: block;
-    color: #444;
-}
+    .form-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #20c997;
+      font-size: 1.1rem;
+      z-index: 1;
+      pointer-events: none;
+    }
 
-.form-container input, 
-.form-container select, 
-.form-container textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    outline: none;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-}
+    .form-control-adopt, .form-select-adopt {
+      width: 100%;
+      padding: 15px 18px 15px 50px;
+      font-size: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      background: #f8fafc;
+      font-family: 'Poppins', sans-serif;
+    }
 
-.form-container input:focus,
-.form-container select:focus,
-.form-container textarea:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
-}
+    .form-control-adopt:focus, .form-select-adopt:focus {
+      border-color: #20c997;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(32, 201, 151, 0.1);
+      outline: none;
+    }
 
-.btn-theme {
-    background: #007bff;
-    color: #fff;
-    font-weight: 500;
-    border-radius: 8px;
-    padding: 10px;
-    transition: background 0.3s ease;
-}
+    .form-control-adopt::placeholder {
+      color: #94a3b8;
+    }
 
-.btn-theme:hover {
-    background: #0056b3;
-    color: #fff;
-}
+    textarea.form-control-adopt {
+      resize: vertical;
+      min-height: 120px;
+      padding: 15px 18px;
+    }
 
-    
-    .navbar {
-            background-color: #1a374d;
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .navbar-brand {
-            font-family: 'Fredoka One', cursive;
-            font-size: 1.8rem;
-        }
-        
-        .navbar-brand i {
-            margin-right: 10px;
-            color: #20c997;
-            font-size: 1.5rem;
-        }
-        
-        .nav-link {
-            font-weight: 500;
-            padding: 8px 15px;
-            margin: 0 5px;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            background-color: rgba(255,255,255,0.1);
-        }
-        
-        .nav-link i {
-            margin-right: 8px;
-            color: #ffffff;
-        }
+    .btn-submit-adopt {
+      background: linear-gradient(135deg, #20c997 0%, #17a589 100%);
+      color: white;
+      border: none;
+      padding: 18px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 8px 20px rgba(32, 201, 151, 0.25);
+    }
 
-        
-/* 🔹 Floating Chat Button */
-.chat-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #007bff;
-  color: white;
-  font-size: 22px;
-  padding: 15px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
-  transition: background 0.3s;
-  z-index: 1000;
-}
-
-.chat-toggle:hover {
-  background: #000000;
-}
-
-/* 🔹 Chat Container */
-.chat-container {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 350px;
-  height: 500px;
-  background: rgb(173, 173, 173);
-  border-radius: 10px;
-  box-shadow: 0px 6px 16px rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  z-index: 999;
-}
-
-.hidden {
-  display: none;
-}
-
-h2 {
-  text-align: center;
-  margin: 10px 0;
- 
-  color: rgb(173, 173, 173);
-  padding: 10px;
-}
-
-/* 🔹 Chat Messages */
-.chat-box {
-  flex: 1;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  padding: 10px;
-  background: #fafafa;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.message {
-  margin: 6px 0;
-  padding: 8px 12px;
-  border-radius: 12px;
-  max-width: 70%;
-  word-wrap: break-word;
-}
-
-/* User (right) */
-.user {
-  background: #007bff;
-  color: white;
-  align-self: flex-end;
-  border-bottom-right-radius: 0;
-}
-
-/* Bot (left) */
-.bot {
-  background: #e4e6eb;
-  align-self: flex-start;
-  border-bottom-left-radius: 0;
-}
-
-/* Input area */
-.input-container {
-  display: flex;
-  padding: 10px;
-}
-
-#user-input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-}
-
-button {
-  margin-left: 10px;
-  padding: 10px 15px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #0056b3;
-}
-
-    
+    .btn-submit-adopt:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(32, 201, 151, 0.35);
+    }
   </style>
 </head>
 <body>
-    <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <!-- Modern Navbar -->
+    <nav class="navbar-modern">
       <div class="container">
-        <a class="navbar-brand" href="/"><i class="fa-solid fa-paw"></i> PawConnect</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="/#home"><i class="fa-solid fa-house"></i> Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/#adoption"><i class="fa-solid fa-dog"></i> Adopt</a></li>
-            <li class="nav-item"><a class="nav-link" href="/#sos"><i class="fa-solid fa-triangle-exclamation"></i> Rescue SOS</a></li>
-            <li class="nav-item"><a class="nav-link" href="/#volunteer"><i class="fa-solid fa-hand-holding-heart"></i> Volunteer</a></li>
-
-            <li class="nav-item"><a class="nav-link" href="/#contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
-<li class="nav-item">
-    <a class="nav-link" href="{% url 'donate' %}">
-        <i class="fa-solid fa-hand-holding-dollar"></i> Donate
-    </a>
-</li>
-
-
-<ul class="navbar-nav ms-auto">
-    {% if user.is_authenticated %}
-<li class="nav-item me-2">
-    <a class="nav-link text-white" href="{% url 'profile' %}">
-        <i class="fa-solid fa-user"></i> {{ user.username }}!
-    </a>
-</li>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-danger btn-sm ms-2" href="{% url 'logout' %}">
-                <i class="fa-solid fa-sign-out-alt"></i> Logout
-            </a>
-        </li>
-    {% else %}
-        <li class="nav-item">
-            <a class="btn btn-theme btn-sm ms-2" href="{% url 'login' %}">
-                <i class="fa-solid fa-user"></i> Login
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-theme btn-sm ms-2" href="{% url 'signup' %}">
-                <i class="fa-solid fa-user-plus"></i> Signup
-            </a>
-        </li>
-    {% endif %}
-</ul>
-
-
-</ul>
-
-            
-          </ul>
+        <a href="/" class="navbar-brand-modern">
+          <i class="fa-solid fa-paw"></i>
+          <span>PawConnect</span>
+        </a>
+        <ul class="navbar-nav-modern">
+          <li><a href="/" class="nav-link-modern">HOME</a></li>
+          <li><a href="{% url 'adoption_section' %}" class="nav-link-modern active">ADOPT</a></li>
+          <li><a href="/#sos" class="nav-link-modern">RESCUE</a></li>
+          <li><a href="{% url 'volunteer_apply' %}" class="nav-link-modern">VOLUNTEER</a></li>
+          <li><a href="{% url 'donate' %}" class="nav-link-modern">DONATE</a></li>
+        </ul>
+        <div class="navbar-actions">
+          {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}" class="icon-btn"><i class="fa-solid fa-user"></i></a>
+            <a href="{% url 'logout' %}" class="btn-donate">Logout</a>
+          {% else %}
+            <a href="{% url 'login' %}" class="icon-btn"><i class="fa-solid fa-user"></i></a>
+            <a href="{% url 'signup' %}" class="btn-donate">Sign Up</a>
+          {% endif %}
         </div>
       </div>
     </nav>
 
-    <div class="container my-5">
-        <div class="form-container">
-            <h2 class="text-center mb-4">Adopt {{ pet.name }}</h2>
+    <div class="container" style="padding: 80px 20px;">
+        <div class="adoption-card" style="padding: 60px 50px;">
+            <div style="margin-bottom: 40px; text-align: center;">
+                <div style="display: inline-flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #e6f9f3 0%, #d1f4ea 100%); padding: 12px 24px; border-radius: 50px; margin-bottom: 15px;">
+                    <i class="fa-solid fa-heart" style="color: #20c997; font-size: 1.3rem;"></i>
+                    <h2 style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #1a374d;">Adopt {{ pet.name }}</h2>
+                </div>
+                <p style="color: #64748b; font-size: 0.95rem; margin: 0;">Fill out the form below to start the adoption process</p>
+            </div>
+
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-theme w-100">Submit Request</button>
+                
+                {% for field in form %}
+                  {% if field.name == 'name' %}
+                    <div class="form-group-modern">
+                        <i class="fa-solid fa-user form-icon"></i>
+                        <input type="text" name="{{ field.name }}" class="form-control-adopt" 
+                               placeholder="Your Full Name" required 
+                               value="{{ field.value|default:'' }}">
+                    </div>
+                  {% elif field.name == 'email' %}
+                    <div class="form-group-modern">
+                        <i class="fa-solid fa-envelope form-icon"></i>
+                        <input type="email" name="{{ field.name }}" class="form-control-adopt" 
+                               placeholder="Your Email Address" required 
+                               value="{{ field.value|default:'' }}">
+                    </div>
+                  {% elif field.name == 'phone' %}
+                    <div class="form-group-modern">
+                        <i class="fa-solid fa-phone form-icon"></i>
+                        <input type="tel" name="{{ field.name }}" class="form-control-adopt" 
+                               placeholder="Your Phone Number" required 
+                               value="{{ field.value|default:'' }}">
+                    </div>
+                  {% elif field.name == 'address' %}
+                    <div class="form-group-modern">
+                        <i class="fa-solid fa-location-dot form-icon" style="top: 25px;"></i>
+                        <textarea name="{{ field.name }}" class="form-control-adopt" 
+                                  placeholder="Your Complete Address" required>{{ field.value|default:'' }}</textarea>
+                    </div>
+                  {% elif field.name == 'experience' %}
+                    <div class="form-group-modern">
+                        <i class="fa-solid fa-paw form-icon"></i>
+                        <select name="{{ field.name }}" class="form-select-adopt" required>
+                            <option value="">Do you have experience with pets?</option>
+                            <option value="yes" {% if field.value == 'yes' %}selected{% endif %}>Yes</option>
+                            <option value="no" {% if field.value == 'no' %}selected{% endif %}>No</option>
+                        </select>
+                    </div>
+                  {% elif field.name == 'message' %}
+                    <div class="form-group-modern" style="margin-bottom: 0;">
+                        <i class="fa-solid fa-message form-icon" style="top: 25px;"></i>
+                        <textarea name="{{ field.name }}" class="form-control-adopt" 
+                                  placeholder="Tell us why you want to adopt {{ pet.name }}... (Optional)">{{ field.value|default:'' }}</textarea>
+                    </div>
+                  {% else %}
+                    <div class="form-group-modern">
+                        {{ field }}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+
+                <div style="margin-top: 35px;">
+                    <button type="submit" class="btn-submit-adopt">
+                        <i class="fa-solid fa-heart" style="font-size: 1.2rem;"></i>
+                        <span>Submit Adoption Request</span>
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 
-
-
-
-    <script>
-
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

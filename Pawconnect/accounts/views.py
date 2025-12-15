@@ -45,7 +45,13 @@ def send_otp_email(email, otp):
 def base(request):
     # Fetch up to 3 pets for the featured section
     featured_pets = Pet.objects.all()[:3]
-    return render(request, 'accounts/base.html', {'featured_pets': featured_pets})
+    # Fetch active news items
+    from pets.models import News
+    news_items = News.objects.filter(is_active=True)[:6]
+    return render(request, 'accounts/base.html', {
+        'featured_pets': featured_pets,
+        'news_items': news_items
+    })
 
 # ---------- Authentication ----------
 def login_view(request):

@@ -103,3 +103,19 @@ class PetAdoption(models.Model):
         return f"{self.pet.name} adopted by {self.adopter}"
 
 
+# -----------------------------
+# News/Events Model
+# -----------------------------
+class News(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    image = models.ImageField(upload_to='news_images/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name_plural = "News"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.title

@@ -135,57 +135,42 @@ body {
 </style>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <!-- New Modern Navbar -->
+    <nav class="navbar-modern navbar-expand-lg sticky-top">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'base' %}"><i class="fa-solid fa-paw"></i> PawConnect</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <!-- Logo -->
+        <a class="navbar-brand-modern" href="{% url 'base' %}">
+          <i class="fa-solid fa-paw"></i>
+          <span>PawConnect</span>
+        </a>
+        
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler-modern" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto align-items-center">
-            <!-- Navigation Links -->
-            <li class="nav-item">
-              <a class="nav-link" href="#home"><i class="fa-solid fa-house"></i> Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'adoption_section' %}"><i class="fa-solid fa-dog"></i> Adopt</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#sos"><i class="fa-solid fa-heart-pulse"></i> Rescue SOS</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'volunteer_apply' %}"><i class="fa-solid fa-handshake"></i> Volunteer</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'donate' %}"><i class="fa-solid fa-hand-holding-heart"></i> Donate</a>
-            </li>
-            
-            <!-- Authentication Section -->
-            {% if user.is_authenticated %}
-            <li class="nav-item ms-3">
-              <a class="nav-link nav-user" href="{% url 'profile' %}">
-                <i class="fa-solid fa-user-circle"></i> {{ user.username }}
-              </a>
-            </li>
-            <li class="nav-item ms-2">
-              <a class="btn btn-danger btn-sm" href="{% url 'logout' %}">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-              </a>
-            </li>
-            {% else %}
-            <li class="nav-item ms-3">
-              <a class="btn btn-theme btn-sm" href="{% url 'login' %}">
-                <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
-              </a>
-            </li>
-            <li class="nav-item ms-2">
-              <a class="btn btn-primary btn-sm" href="{% url 'signup' %}">
-                <i class="fa-solid fa-user-plus"></i> Sign Up
-              </a>
-            </li>
-            {% endif %}
+        
+        <!-- Navigation Menu -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav-modern">
+            <li><a href="#home" class="nav-link-modern active">HOME</a></li>
+            <li><a href="{% url 'adoption_section' %}" class="nav-link-modern">ADOPT</a></li>
+            <li><a href="#sos" class="nav-link-modern">RESCUE</a></li>
+            <li><a href="{% url 'volunteer_apply' %}" class="nav-link-modern">VOLUNTEER</a></li>
+            <li><a href="{% url 'donate' %}" class="nav-link-modern">DONATE</a></li>
           </ul>
+        </div>
+        
+        <!-- Right Actions -->
+        <div class="navbar-actions">
+          {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}" class="icon-btn"><i class="fa-solid fa-user"></i></a>
+            <a href="{% url 'logout' %}" class="btn-donate">Logout</a>
+          {% else %}
+            <a href="{% url 'login' %}" class="icon-btn"><i class="fa-solid fa-user"></i></a>
+            <a href="{% url 'signup' %}" class="btn-donate">Sign Up</a>
+          {% endif %}
         </div>
       </div>
     </nav>
@@ -209,113 +194,35 @@ body {
         {% endif %}
     </div>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h2 class="fw-bold" style="margin-bottom: 20px; animation: fadeInDown 0.8s ease-out;">
-                <i class="fa-solid fa-paw"></i> Welcome to PawConnect
-            </h2>
-            <h1><i class="fa-solid fa-heart"></i> Giving Animals a Second Chance</h1>
-            <p>Join our mission to rescue, rehabilitate, and rehome animals in need across the country.</p>
-            <div class="hero-buttons">
-                <a href="{% url 'adoption_section' %}" class="btn btn-hero"><i class="fa-solid fa-dog"></i> Adopt a Pet</a>
-                <a href="#sos" class="btn btn-hero btn-green"><i class="fa-solid fa-triangle-exclamation"></i> Report SOS</a>
-            </div>
-        </div>
-    </section>
-    <section class="section section-light-gray">
+    <!-- Modern Hero Section -->
+    <section id="home" class="hero-modern">
         <div class="container">
-            <div class="row text-center g-4">
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <i class="fa-solid fa-dog fa-3x text-primary mb-3" style="opacity: 0.9;"></i>
-                            <h4 class="fw-bold mb-1">1,200+</h4>
-                            <p class="text-muted mb-0">Animals Rescued</p>
+            <div class="row align-items-center">
+                <!-- Left Content -->
+                <div class="col-lg-6">
+                    <div class="hero-text">
+                        <p class="hero-subtitle"><i class="fa-solid fa-paw"></i> Welcome to PawConnect</p>
+                        <h1 class="hero-title">
+                            <i class="fa-solid fa-heart"></i> Giving <span class="highlight">Animals</span> a Second<br>
+                            <span class="highlight">Chance</span>
+                        </h1>
+                        <p style="font-size: 18px; color: #555; margin-bottom: 30px;">Join our mission to rescue, rehabilitate, and rehome animals in need across the country.</p>
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                            <a href="{% url 'adoption_section' %}" class="btn-hero-modern">
+                                <i class="fa-solid fa-dog"></i> Adopt a Pet
+                            </a>
+                            <a href="#sos" class="btn-hero-modern" style="background: #dc3545;">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Report SOS
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <i class="fa-solid fa-house fa-3x text-primary mb-3" style="opacity: 0.9;"></i>
-                            <h4 class="fw-bold mb-1">950+</h4>
-                            <p class="text-muted mb-0">Successful Adoptions</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <i class="fa-solid fa-users fa-3x text-primary mb-3" style="opacity: 0.9;"></i>
-                            <h4 class="fw-bold mb-1">300+</h4>
-                            <p class="text-muted mb-0">Active Volunteers</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <i class="fa-solid fa-handshake fa-3x text-primary mb-3" style="opacity: 0.9;"></i>
-                            <h4 class="fw-bold mb-1">500+</h4>
-                            <p class="text-muted mb-0">Partners & Donors</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-                        <div class="card">
-                            <div class="card-body">
-                                <i class="fa-solid fa-hand-holding-dollar fa-2x text-danger mb-2"></i>
-                                <h4 class="fw-bold mb-0">NPR 5M+</h4>
-                                <p class="mb-0">Funds Raised</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-<hr class="my-4">
-
-
-
-
-
-
-
-    <!-- Quick Links Section -->
-    <!-- Quick Links Section -->
-    <section class="section section-white">
-        <div class="container">
-        <div class="row text-center g-4">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <i class="fa-solid fa-dog fa-3x text-primary mb-3" style="opacity: 0.9;"></i>
-                        <h5 class="card-title fw-bold">Adopt a Pet</h5>
-                        <p class="card-text">Find your perfect companion from our rescued animals ready for loving homes.</p>
-                        <a href="{% url 'adoption_section' %}" class="btn btn-theme"><i class="fa-solid fa-paw"></i> Browse Pets</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <i class="fa-solid fa-triangle-exclamation fa-3x text-danger mb-3" style="opacity: 0.9;"></i>
-                        <h5 class="card-title fw-bold">Rescue SOS</h5>
-                        <p class="card-text">Report injured, abandoned, or abused animals needing immediate assistance.</p>
-                        <a href="#sos" class="btn btn-theme"><i class="fa-solid fa-phone"></i> Report Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <i class="fa-solid fa-heart fa-3x text-success mb-3" style="opacity: 0.9;"></i>
-                        <h5 class="card-title fw-bold">Get Involved</h5>
-                        <p class="card-text">Volunteer, foster, or donate to support our animal welfare mission.</p>
-                        <a href="{% url 'volunteer_apply' %}" class="btn btn-theme"><i class="fa-solid fa-hands-holding"></i> Join Us</a>
+                
+                <!-- Right Image -->
+                <div class="col-lg-6">
+                    <div class="hero-image">
+                        <div class="image-blob"></div>
+                        <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&h=600&fit=crop" alt="Happy Pet" class="dog-image">
                     </div>
                 </div>
             </div>
@@ -323,31 +230,42 @@ body {
     </section>
 
     <!-- Pets Waiting for Homes Section -->
-    <section id="adoption" class="section section-light-gray">
+    <section id="adoption" class="section" style="background: #ffffff; padding: 80px 0;">
         <div class="container">
-        <h2 class="section-title"><i class="fa-solid fa-paw"></i> Pets Waiting for Homes</h2>
-        <p class="text-center mb-5">Each of these rescued animals has been vaccinated, microchipped, and is ready to join a loving family.</p>
+        <div class="text-center mb-5">
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 12px; letter-spacing: 1px;">Meet the animals</p>
+            <h2 style="font-size: 2.5rem; font-weight: 700; color: #1a374d; margin-bottom: 15px; font-family: 'Fredoka One', cursive;">Puppies Waiting for Adoption</h2>
+            <p style="color: #64748b; font-size: 1rem; max-width: 700px; margin: 0 auto;">The best overall dog DNA test is Embark Breed & Health Kit (view at Chewy), which provides you with a breed brwn and information most dogs</p>
+        </div>
         
-        <div class="row g-4">
+        <div class="row g-4" style="margin-top: 50px;">
             {% for pet in featured_pets %}
             <div class="col-md-4">
-                <div class="card">
-                    <img src="{{ pet.image }}" class="card-img-top" alt="{{ pet.name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">
+                <div style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: all 0.3s ease; border: 1px solid #f1f5f9;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 28px rgba(0,0,0,0.12)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.06)'">
+                    <div style="background: #f8fafc; padding: 30px; text-align: center; border-bottom: 1px solid #e2e8f0;">
+                        <img src="{{ pet.image }}" style="width: 100%; max-width: 280px; height: 280px; object-fit: cover; border-radius: 12px;" alt="{{ pet.name }}">
+                    </div>
+                    <div style="padding: 25px;">
+                        <h5 style="font-size: 1.1rem; font-weight: 500; color: #1e293b; margin-bottom: 12px; line-height: 1.5;">
                             {% if pet.name == 'Buddy' %}
-                                <i class="fa-solid fa-dog"></i> {{ pet.name }}
+                                <span style="font-weight: 600;">MK007</span> <span style="color: #64748b; font-weight: 400;">-</span> {{ pet.name }} <span style="color: #94a3b8; font-size: 0.95rem;">(Golden Retriever)</span>
                             {% elif pet.name == 'Mittens' %}
-                                <i class="fa-solid fa-cat"></i> {{ pet.name }}
+                                <span style="font-weight: 600;">JH645</span> <span style="color: #64748b; font-weight: 400;">-</span> {{ pet.name }} <span style="color: #94a3b8; font-size: 0.95rem;">(Persian)</span>
                             {% else %}
-                                <i class="fa-solid fa-bunny"></i> {{ pet.name }}
+                                <span style="font-weight: 600;">RB123</span> <span style="color: #64748b; font-weight: 400;">-</span> {{ pet.name }} <span style="color: #94a3b8; font-size: 0.95rem;">(Lop Ear)</span>
                             {% endif %}
                         </h5>
-                        <p class="card-text"><i class="fa-solid fa-mars"></i> {{ pet.gender }}, {{ pet.age }} years old</p>
-                        <p class="card-text"><i class="fa-solid fa-shield-virus"></i> Vaccinated: {{ pet.vaccinated|yesno:"Yes,No" }} | Neutered/Spayed: {{ pet.neutered_spayed|yesno:"Yes,No" }}</p>
-                        <p class="card-text">{{ pet.description }}</p>
-                        <a href="{% url 'adoption_section' %}" class="btn btn-theme btn-sm"><i class="fa-solid fa-heart"></i> Adopt Me</a>
-                        <a href="{% url 'donate' %}" class="btn btn-outline-primary btn-sm ms-2"><i class="fa-regular fa-star"></i> Sponsor</a>
+                        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 15px;">
+                            <span style="margin-right: 15px;">Genre: {{ pet.gender }}</span> • 
+                            <span style="margin-left: 5px;">Age: {{ pet.age }} {% if pet.age == 1 %}year{% else %}years{% endif %}</span>
+                        </p>
+                        <div style="border-top: 1px solid #f1f5f9; padding-top: 18px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                            <p style="font-size: 1.3rem; font-weight: 700; color: #1a374d; margin: 0;">Free Adoption</p>
+                            <div style="display: flex; gap: 8px;">
+                                <a href="{% url 'adoption_section' %}" style="background: #20c997; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.background='#17a589'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#20c997'; this.style.transform='translateY(0)'"><i class="fa-solid fa-heart"></i> Adopt</a>
+                                <a href="{% url 'donate' %}" style="background: #f1f5f9; color: #64748b; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'"><i class="fa-regular fa-star"></i> Sponsor</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -358,299 +276,288 @@ body {
             {% endfor %}
         </div>
         
-        <div class="text-center mt-5">
-            <a href="{% url 'adoption_section' %}" class="btn btn-theme btn-lg"><i class="fa-solid fa-paw"></i> View All Available Pets</a>
+        <div class="text-center" style="margin-top: 60px;">
+            <a href="{% url 'adoption_section' %}" style="background: linear-gradient(135deg, #20c997 0%, #17a589 100%); color: white; padding: 16px 40px; border-radius: 12px; text-decoration: none; font-size: 1.1rem; font-weight: 600; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 20px rgba(32, 201, 151, 0.25); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(32, 201, 151, 0.35)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(32, 201, 151, 0.25)'"><i class="fa-solid fa-paw"></i> View All Available Pets</a>
         </div>
         </div>
     </section>
+
+    <!-- News Feed Section -->
+    <section class="section" style="background: #f8fafc; padding: 80px 0;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 12px; letter-spacing: 1px;">LATEST UPDATES</p>
+                <h2 style="font-size: 2.5rem; font-weight: 700; color: #1a374d; margin-bottom: 15px; font-family: 'Fredoka One', cursive;">Our Recent Activities</h2>
+                <p style="color: #64748b; font-size: 1rem; max-width: 700px; margin: 0 auto;">Stay updated with our latest rescue missions, adoption events, and community initiatives</p>
+            </div>
+
+            <div class="news-carousel-container" style="position: relative; margin-top: 50px; overflow: hidden;">
+                <div class="news-carousel" id="newsCarousel" style="display: flex; gap: 24px; transition: transform 0.5s ease;">
+                    {% for news in news_items %}
+                    <div class="news-card" style="min-width: calc(33.333% - 16px); background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.08); cursor: pointer; transition: all 0.3s ease;" 
+                         onclick="openNewsModal('{{ news.title|escapejs }}', '{{ news.description|escapejs }}', '{{ news.image.url }}')"
+                         onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 28px rgba(0,0,0,0.15)'"
+                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)'">
+                        <div style="position: relative; overflow: hidden; height: 250px;">
+                            <img src="{{ news.image.url }}" alt="{{ news.title }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
+                                 onmouseover="this.style.transform='scale(1.05)'"
+                                 onmouseout="this.style.transform='scale(1)'">
+                            <div style="position: absolute; top: 15px; right: 15px; background: rgba(32, 201, 151, 0.95); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; backdrop-filter: blur(10px);">
+                                <i class="fa-solid fa-calendar"></i> {{ news.created_at|date:"M d, Y" }}
+                            </div>
+                        </div>
+                        <div style="padding: 25px;">
+                            <h5 style="font-size: 1.2rem; font-weight: 700; color: #1a374d; margin-bottom: 12px; line-height: 1.4;">{{ news.title }}</h5>
+                            <p style="color: #64748b; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">{{ news.description|truncatewords:25 }}</p>
+                            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f5f9;">
+                                <span style="color: #20c997; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px;">
+                                    Read More <i class="fa-solid fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center">
+                        <p style="color: #94a3b8; font-size: 1.1rem;">No news available at the moment.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                {% if news_items|length > 3 %}
+                <!-- Navigation Arrows -->
+                <button onclick="scrollNews(-1)" style="position: absolute; left: -20px; top: 50%; transform: translateY(-50%); background: white; border: none; width: 50px; height: 50px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; z-index: 10; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;"
+                        onmouseover="this.style.background='#20c997'; this.style.color='white'; this.style.transform='translateY(-50%) scale(1.1)'"
+                        onmouseout="this.style.background='white'; this.style.color='#1a374d'; this.style.transform='translateY(-50%) scale(1)'">
+                    <i class="fa-solid fa-chevron-left" style="font-size: 1.2rem; color: #1a374d;"></i>
+                </button>
+                <button onclick="scrollNews(1)" style="position: absolute; right: -20px; top: 50%; transform: translateY(-50%); background: white; border: none; width: 50px; height: 50px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; z-index: 10; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;"
+                        onmouseover="this.style.background='#20c997'; this.style.color='white'; this.style.transform='translateY(-50%) scale(1.1)'"
+                        onmouseout="this.style.background='white'; this.style.color='#1a374d'; this.style.transform='translateY(-50%) scale(1)'">
+                    <i class="fa-solid fa-chevron-right" style="font-size: 1.2rem; color: #1a374d;"></i>
+                </button>
+                {% endif %}
+            </div>
+
+            <!-- Carousel Indicators -->
+            {% if news_items|length > 3 %}
+            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 40px;">
+                <div class="carousel-dot active" onclick="goToSlide(0)" style="width: 12px; height: 12px; border-radius: 50%; background: #20c997; cursor: pointer; transition: all 0.3s ease;"></div>
+                {% for i in "123456789" %}
+                    {% if forloop.counter < news_items|length|add:"-2" %}
+                    <div class="carousel-dot" onclick="goToSlide({{ forloop.counter }})" style="width: 12px; height: 12px; border-radius: 50%; background: #cbd5e1; cursor: pointer; transition: all 0.3s ease;"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- News Modal -->
+    <div id="newsModal" style="display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); padding: 20px; overflow-y: auto;">
+        <div style="position: relative; background: white; max-width: 900px; margin: 50px auto; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <button onclick="closeNewsModal()" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.95); border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s ease;"
+                    onmouseover="this.style.background='#dc3545'; this.querySelector('i').style.color='white'; this.style.transform='rotate(90deg)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.95)'; this.querySelector('i').style.color='#1a374d'; this.style.transform='rotate(0)'">
+                <i class="fa-solid fa-times" style="font-size: 1.3rem; color: #1a374d; transition: color 0.3s ease;"></i>
+            </button>
+            <img id="modalImage" src="" alt="" style="width: 100%; height: 450px; object-fit: cover;">
+            <div style="padding: 50px;">
+                <h2 id="modalTitle" style="font-size: 2rem; font-weight: 700; color: #1a374d; margin-bottom: 20px; font-family: 'Fredoka One', cursive;"></h2>
+                <p id="modalDescription" style="color: #64748b; font-size: 1.05rem; line-height: 1.8;"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    let currentSlide = 0;
+    const newsCards = document.querySelectorAll('.news-card');
+    const totalSlides = Math.max(0, newsCards.length - 2);
+    
+    function scrollNews(direction) {
+        currentSlide += direction;
+        if (currentSlide < 0) currentSlide = totalSlides;
+        if (currentSlide > totalSlides) currentSlide = 0;
+        
+        const carousel = document.getElementById('newsCarousel');
+        const cardWidth = newsCards[0]?.offsetWidth || 0;
+        const gap = 24;
+        const offset = -(currentSlide * (cardWidth + gap));
+        carousel.style.transform = `translateX(${offset}px)`;
+        
+        updateDots();
+    }
+    
+    function goToSlide(index) {
+        currentSlide = index;
+        const carousel = document.getElementById('newsCarousel');
+        const cardWidth = newsCards[0]?.offsetWidth || 0;
+        const gap = 24;
+        const offset = -(currentSlide * (cardWidth + gap));
+        carousel.style.transform = `translateX(${offset}px)`;
+        
+        updateDots();
+    }
+    
+    function updateDots() {
+        const dots = document.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, index) => {
+            if (index === currentSlide) {
+                dot.style.background = '#20c997';
+                dot.style.width = '32px';
+            } else {
+                dot.style.background = '#cbd5e1';
+                dot.style.width = '12px';
+            }
+        });
+    }
+    
+    // Auto-scroll every 5 seconds
+    setInterval(() => {
+        if (newsCards.length > 3) {
+            scrollNews(1);
+        }
+    }, 5000);
+    
+    function openNewsModal(title, description, image) {
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalDescription').textContent = description;
+        document.getElementById('modalImage').src = image;
+        document.getElementById('newsModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeNewsModal() {
+        document.getElementById('newsModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    
+    // Close modal on outside click
+    document.getElementById('newsModal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeNewsModal();
+        }
+    });
+    
+    // Close modal on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeNewsModal();
+        }
+    });
+    </script>
 
     <!-- Rescue SOS Section -->
 <section id="sos" class="section section-light-gray">
     <div class="container">
-        <h2 class="section-title"><i class="fa-solid fa-triangle-exclamation"></i> Emergency Animal Rescue</h2>
-    <p class="text-center mb-5">Report injured, abused, or abandoned animals in your area. Our team will respond as quickly as possible.</p>
-
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fa-solid fa-circle-question"></i> When to Report</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><i class="fa-solid fa-check-circle text-success me-2"></i> Visible injuries or illness</li>
-                        <li class="list-group-item"><i class="fa-solid fa-check-circle text-success me-2"></i> Abandoned or trapped animals</li>
-                        <li class="list-group-item"><i class="fa-solid fa-check-circle text-success me-2"></i> Suspected abuse or neglect</li>
-                        <li class="list-group-item"><i class="fa-solid fa-check-circle text-success me-2"></i> Animals in immediate danger</li>
-                    </ul>
+        <div class="contact-modern-wrapper">
+            <div class="row g-0">
+                <!-- LEFT SIDE: Rescue Form -->
+                <div class="col-lg-6">
+                    <div class="contact-form-section">
+                        {% if user.is_authenticated %}
+                        <form method="POST" enctype="multipart/form-data" action="{% url 'submit_rescue_request' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Your Name</label>
+                                <input type="text" name="name" class="form-control-modern" placeholder="Your Name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" name="phone" class="form-control-modern" placeholder="Phone Number" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Exact Location</label>
+                                <input type="text" name="location" class="form-control-modern" placeholder="Street, City" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Type of Emergency</label>
+                                <select name="emergency_type" class="form-control-modern" required>
+                                    <option value="">-- Select Emergency Type --</option>
+                                    <option value="injury">Injured Animal</option>
+                                    <option value="abuse">Abuse/Neglect</option>
+                                    <option value="abandoned">Abandoned Animal</option>
+                                    <option value="trapped">Trapped Animal</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Situation Description</label>
+                                <textarea name="description" class="form-control-modern" rows="4" placeholder="Please describe the animal(s) and situation in detail" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Upload Photo (Optional)</label>
+                                <input class="form-control-modern" type="file" name="photo" id="photo">
+                            </div>
+                            
+                            <button type="submit" class="btn-contact-submit">
+                                Submit Rescue Request
+                            </button>
+                        </form>
+                        {% else %}
+                            <p class="text-danger text-center">Please <a href="{% url 'login' %}">login</a> to report an animal in need.</p>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fa-solid fa-phone"></i> Emergency Hotline</h5>
-                    <p>For immediate assistance, call our 24/7 rescue hotline:</p>
-                    <h3 class="text-danger">1-800-PAW-RESCUE</h3>
-                    <p class="small text-muted">Available in all regions we serve</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title mb-4">Report an Animal in Need</h5>
-
-                    {% if user.is_authenticated %}
-<form method="POST" enctype="multipart/form-data" class="row g-3" action="{% url 'submit_rescue_request' %}">
-                        {% csrf_token %}
-
-                        <div class="col-md-6">
-                            <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="tel" name="phone" class="form-control" placeholder="Phone Number" required>
-                        </div>
-                        <div class="col-12">
-                            <input type="text" name="location" class="form-control" placeholder="Exact Location (Street, City)" required>
-                        </div>
-                        <div class="col-12">
-                            <select name="emergency_type" class="form-select" required>
-                                <option value="">Type of Emergency</option>
-                                <option value="injury">Injured Animal</option>
-                                <option value="abuse">Abuse/Neglect</option>
-                                <option value="abandoned">Abandoned Animal</option>
-                                <option value="trapped">Trapped Animal</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <textarea name="description" class="form-control" rows="4" placeholder="Please describe the animal(s) and situation in detail" required></textarea>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="photo" class="form-label">Upload Photo (if possible)</label>
-                                <input class="form-control" type="file" name="photo" id="photo">
+                
+                <!-- RIGHT SIDE: Rescue Info -->
+                <div class="col-lg-6">
+                    <div class="contact-info-section">
+                        <h2 class="contact-heading">Emergency Animal Rescue</h2>
+                        <p class="contact-description">
+                            Report injured, abused, or abandoned animals in your area. Our team will respond as quickly as possible to provide assistance.
+                        </p>
+                        
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <div class="contact-icon" style="background-color: #dc3545;">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <h6>Emergency Hotline</h6>
+                                    <p>1-800-PAW-RESCUE<br>Available 24/7 in all regions</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon" style="background-color: #dc3545;">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <h6>When to Report</h6>
+                                    <p>Visible injuries or illness<br>Abandoned or trapped animals<br>Suspected abuse or neglect<br>Animals in immediate danger</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon" style="background-color: #dc3545;">
+                                    <i class="fa-solid fa-clock"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <h6>Response Time</h6>
+                                    <p>Emergency: Within 2 hours<br>Non-emergency: Within 24 hours</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-theme btn-green w-100">
-                                <i class="fa-solid fa-paper-plane"></i> Submit Rescue Request
-                            </button>
-                        </div>
-                    </form>
-                    {% else %}
-                        <p class="text-danger text-center">Please <a href="{% url 'login' %}">login</a> to report an animal in need.</p>
-                    {% endif %}
-
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </section>
 
-<!--Volunteer section-->
-<!-- Volunteer Section -->
-    <section id="volunteer" class="section section-white">
-        <div class="container">
-            <h2 class="section-title text-center">
-                <i class="fa-solid fa-hand-holding-heart"></i> Get Involved
-            </h2>
-            <p class="text-center mb-5">
-                Join our community of animal lovers making a difference in animals' lives every day.
-            </p>
-
-        <div class="row g-4">
-            <!-- Volunteer Opportunities Card -->
-            <div class="col-lg-6 col-md-12">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fa-solid fa-users"></i> Volunteer Opportunities</h5>
-                        <div class="accordion" id="volunteerAccordion">
-                            
-                            <!-- Animal Care Volunteer -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne">
-                                        <i class="fa-solid fa-medkit me-2"></i> Animal Care Volunteer
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show"
-                                    data-bs-parent="#volunteerAccordion">
-                                    <div class="accordion-body">
-                                        <p>Help with daily care including feeding, cleaning, and socializing with our rescued animals. Training provided.</p>
-                                        <p><strong>Time commitment:</strong> 4+ hours per week</p>
-                                        <a href="{% url 'volunteer_apply' %}" class="btn btn-sm btn-theme">Apply Now</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Rescue Transport Volunteer -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwo">
-                                        <i class="fa-solid fa-truck me-2"></i> Rescue Transport Volunteer
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse"
-                                    data-bs-parent="#volunteerAccordion">
-                                    <div class="accordion-body">
-                                        <p>Transport animals to/from vet appointments, foster homes, and adoption events. Must have reliable vehicle.</p>
-                                        <p><strong>Time commitment:</strong> Flexible, on-call basis</p>
-                                        <a href="{% url 'volunteer_apply' %}" class="btn btn-sm btn-theme">Apply Now</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Foster Care Provider -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseThree">
-                                        <i class="fa-solid fa-home me-2"></i> Foster Care Provider
-                                    </button>
-                                </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse"
-                                    data-bs-parent="#volunteerAccordion">
-                                    <div class="accordion-body">
-                                        <p>Temporarily care for animals in your home until they're ready for adoption. All supplies provided.</p>
-                                        <p><strong>Time commitment:</strong> 2 weeks to several months</p>
-                                        <a href="{% url 'volunteer_apply' %}" class="btn btn-sm btn-theme">Apply Now</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div> <!-- end accordion -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Support / Donation Card -->
-            <div class="col-lg-6 col-md-12">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fa-solid fa-hand-holding-dollar"></i> Support Us</h5>
-                        <p>You can also contribute by donating, sponsoring, or spreading awareness. Your support helps us rescue, treat, and rehome animals in need.</p>
-                        <p><strong>Your support will help us:</strong></p>
-            <ul>
-                <li>Provide food, shelter, and medical care for rescued animals</li>
-                <li>Run vaccination and sterilization programs</li>
-                <li>Support foster families with supplies</li>
-                <li>Organize adoption and awareness events</li>
-                <li>Expand our rescue network and emergency response</li>
-            </ul>
-            <p>Together, we can create a safer and happier world for animals.</p>
-                        <a href="{% url 'donate' %}" class="btn btn-sm btn-theme">Donate Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </section>
-
-                        <h6 class="mb-3" style="text-align: center;">Other Ways to Help:</h6>
-                        <div class="row g-2">
-                            <div class="col-md-6">
-                                <div class="card bg-light">
-                                    <div class="card-body text-center">
-                                        <i class="fa-solid fa-bone text-primary mb-2"></i>
-                                        <h6>Wish List</h6>
-                                        <p class="small">Food, toys, blankets, and supplies</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card bg-light">
-                                    <div class="card-body text-center">
-                                        <i class="fa-solid fa-share-nodes text-primary mb-2"></i>
-                                        <h6>Spread the Word</h6>
-                                        <p class="small">Share our mission on social media</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card bg-light">
-                                    <div class="card-body text-center">
-                                        <i class="fa-solid fa-briefcase text-primary mb-2"></i>
-                                        <h6>Corporate Support</h6>
-                                        <p class="small">Sponsorship opportunities</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card bg-light">
-                                    <div class="card-body text-center">
-                                        <i class="fa-solid fa-gift text-primary mb-2"></i>
-                                        <h6>Memorial Gifts</h6>
-                                        <p class="small">Honor a loved one</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-   
     <!-- Contact Section -->
 <section id="contact" class="section section-light-gray">
     <div class="container">
-        <h2 class="section-title"><i class="fa-solid fa-envelope"></i> Contact Us</h2>
-        
-        <div class="row">
-            <!-- LEFT SIDE: Locations & Info -->
-            <div class="col-lg-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Our Locations</h5>
-                    
-                    <div class="mb-4">
-                        <h6><i class="fa-solid fa-location-dot text-primary me-2"></i> Kathmandu Headquarters</h6>
-                        <p>123 Animal Lane, Kathmandu 44600<br>
-                        <i class="fa-solid fa-phone me-1"></i> +977-1-5551234</p>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h6><i class="fa-solid fa-location-dot text-primary me-2"></i> Pokhara Center</h6>
-                        <p>456 Lakeside Rd, Pokhara 33700<br>
-                        <i class="fa-solid fa-phone me-1"></i> +977-61-5555678</p>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h6><i class="fa-solid fa-location-dot text-primary me-2"></i> Chitwan Clinic</h6>
-                        <p>789 Jungle Path, Bharatpur 44200<br>
-                        <i class="fa-solid fa-phone me-1"></i> +977-56-5559012</p>
-                    </div>
-                    
-                    <hr>
-                    
-                    <h6 class="mb-3">General Inquiries</h6>
-                    <p><i class="fa-solid fa-envelope me-1"></i> info@pawconnect.org.np</p>
-                    <p><i class="fa-solid fa-globe me-1"></i> www.pawconnect.org.np</p>
-                    
-                    <div class="social-icons mt-4">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- RIGHT SIDE: Contact Form -->
-        <div class="col-lg-7">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title mb-4">Send Us a Message</h5>
-                    
-                    <!-- FORM START -->
-                    <form method="POST" action="#contact">
-                        {% csrf_token %}
-
+        <div class="contact-modern-wrapper">
+            <div class="row g-0">
+                <!-- LEFT SIDE: Contact Form -->
+                <div class="col-lg-6">
+                    <div class="contact-form-section">
                         <!-- Success / Error Messages -->
                         {% if messages %}
                             {% for message in messages %}
@@ -661,98 +568,242 @@ body {
                             {% endfor %}
                         {% endif %}
 
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <input type="text" name="name" class="form-control" placeholder="Your Name"
+                        <form method="POST" action="#contact">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Your Name</label>
+                                <input type="text" name="name" class="form-control-modern" placeholder="Your Name"
                                     value="{{ contact_form.name.value|default_if_none:'' }}" required>
                             </div>
-                            <div class="col-md-6">
-                                <input type="email" name="email" class="form-control" placeholder="Email"
+                            
+                            <div class="form-group">
+                                <label>Your Email</label>
+                                <input type="email" name="email" class="form-control-modern" placeholder="Your Email"
                                     value="{{ contact_form.email.value|default_if_none:'' }}" required>
                             </div>
-                            <div class="col-12">
-                                <input type="text" name="subject" class="form-control" placeholder="Subject"
+                            
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <input type="text" name="subject" class="form-control-modern" placeholder="Subject"
                                     value="{{ contact_form.subject.value|default_if_none:'' }}">
                             </div>
-<div class="col-12">
-    <select name="regarding" class="form-select" required>
-        <option value="">-- Select Regarding --</option>
-        <option value="adoption" {% if contact_form.data.regarding == "adoption" %}selected{% endif %}>Adoption Inquiry</option>
-        <option value="volunteer" {% if contact_form.data.regarding == "volunteer" %}selected{% endif %}>Volunteer Information</option>
-        <option value="donation" {% if contact_form.data.regarding == "donation" %}selected{% endif %}>Donation Question</option>
-        <option value="general" {% if contact_form.data.regarding == "general" %}selected{% endif %}>General Question</option>
-        <option value="other" {% if contact_form.data.regarding == "other" %}selected{% endif %}>Other</option>
-    </select>
-</div>
-
-                            <div class="col-12">
-                                <textarea name="message" class="form-control" rows="5" placeholder="Your Message" required>{{ contact_form.message.value }}</textarea>
+                            
+                            <div class="form-group">
+                                <label>Regarding</label>
+                                <select name="regarding" class="form-control-modern" required>
+                                    <option value="">-- Select Topic --</option>
+                                    <option value="adoption" {% if contact_form.data.regarding == "adoption" %}selected{% endif %}>Adoption Inquiry</option>
+                                    <option value="volunteer" {% if contact_form.data.regarding == "volunteer" %}selected{% endif %}>Volunteer Information</option>
+                                    <option value="donation" {% if contact_form.data.regarding == "donation" %}selected{% endif %}>Donation Question</option>
+                                    <option value="general" {% if contact_form.data.regarding == "general" %}selected{% endif %}>General Question</option>
+                                    <option value="other" {% if contact_form.data.regarding == "other" %}selected{% endif %}>Other</option>
+                                </select>
                             </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-theme w-100">
-                                    <i class="fa-solid fa-paper-plane"></i> Send Message
-                                </button>
+                            
+                            <div class="form-group">
+                                <label>Your Message</label>
+                                <textarea name="message" class="form-control-modern" rows="5" placeholder="Your Message" required>{{ contact_form.message.value }}</textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn-contact-submit">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- RIGHT SIDE: Contact Info -->
+                <div class="col-lg-6">
+                    <div class="contact-info-section">
+                        <h2 class="contact-heading">Get In Touch</h2>
+                        <p class="contact-description">
+                            Submit the information and our program director will get back to you as soon as possible. Or call us at +977-1-5551234 to discuss immediate opportunities to get involved.
+                        </p>
+                        
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <h6>Call Us</h6>
+                                    <p>+977-1-5551234<br>+977-61-5555678</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <h6>Email Us</h6>
+                                    <p>info@pawconnect.org.np<br>support@pawconnect.org.np</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fa-solid fa-globe"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <h6>Website</h6>
+                                    <p>www.pawconnect.org.np</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <h6>Address</h6>
+                                    <p>123 Animal Lane, Kathmandu 44600<br>Nepal</p>
+                                </div>
                             </div>
                         </div>
-                    </form>
-                    <!-- FORM END -->
+                        
+                        <div class="contact-social">
+                            <h6>Follow Us On</h6>
+                            <div class="contact-social-icons">
+                                <a href="https://facebook.com/pawconnect" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="https://instagram.com/pawconnect" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="https://twitter.com/pawconnect" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="https://youtube.com/pawconnect" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
 </section>
 
-
-
-
-    <!-- Footer -->
-    <footer>
+    <!-- Statistics Section -->
+    <section class="stats-section">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h5><i class="fa-solid fa-link"></i> Quick Links</h5>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="{% url 'adoption_section' %}">Adopt a Pet</a></li>
-                        <li><a href="#sos">Rescue SOS</a></li>
-                        <li><a href="{% url 'volunteer_apply' %}">Volunteer</a></li>
-                        <li><a href="{% url 'donate' %}">Donate</a></li>
-                    </ul>
+            <div class="stats-wrapper">
+                <div class="stats-header">
+                    <h2 class="stats-title">Our Stats</h2>
+                    <p class="stats-subtitle">We help you to unleash the power within your business</p>
                 </div>
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h5><i class="fa-solid fa-heart"></i> Get Involved</h5>
-                    <ul>
-                        <li><a href="{% url 'adoption_section' %}">Available Pets</a></li>
-                        <li><a href="{% url 'volunteer_apply' %}">Become a Volunteer</a></li>
-                        <li><a href="{% url 'volunteer_apply' %}">Foster Care Program</a></li>
-                        <li><a href="{% url 'donate' %}">Make a Donation</a></li>
-                        <li><a href="{% url 'donate' %}">Sponsor an Animal</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h5><i class="fa-solid fa-phone"></i> Contact Us</h5>
-                    <ul>
-                        <li><a href="mailto:info@pawconnect.org"><i class="fa-solid fa-envelope"></i> info@pawconnect.org</a></li>
-                        <li><a href="tel:+977-1-4444444"><i class="fa-solid fa-phone"></i> +977-1-4444444</a></li>
-                        <li><a href="#"><i class="fa-solid fa-location-dot"></i> Kathmandu, Nepal</a></li>
-                        <li><a href="#">24/7 Rescue Hotline</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h5><i class="fa-solid fa-share-nodes"></i> Follow Us</h5>
-                    <div class="social-icons">
-                        <a href="https://facebook.com/pawconnect" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="https://instagram.com/pawconnect" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://twitter.com/pawconnect" target="_blank" rel="noopener"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="https://youtube.com/pawconnect" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i></a>
+                <div class="stats-items">
+                    <div class="stat-item">
+                        <h3 class="stat-number">1,200+</h3>
+                        <p class="stat-label">Animals Rescued</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 class="stat-number">950+</h3>
+                        <p class="stat-label">Successful Adoptions</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 class="stat-number">300+</h3>
+                        <p class="stat-label">Active Volunteers</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 class="stat-number">500+</h3>
+                        <p class="stat-label">Partners & Donors</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 class="stat-number">NPR 5M+</h3>
+                        <p class="stat-label">Funds Raised</p>
                     </div>
                 </div>
             </div>
-            
-            <div class="copyright">
-                <p>&copy; 2025 PawConnect Animal Rescue. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
-                <p class="small">PawConnect is a registered 501(c)(3) nonprofit organization. Donations are tax-deductible.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-modern">
+        <div class="footer-main">
+            <div class="container">
+                <div class="row">
+                    <!-- Brand Section -->
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="footer-brand">
+                            <h3><i class="fa-solid fa-paw"></i> PawConnect</h3>
+                            <p class="footer-slogan">Giving Animals a Second Chance</p>
+                            <p class="footer-desc">Connecting loving homes with animals in need. Join our mission to rescue, rehabilitate, and rehome animals across Nepal.</p>
+                            <div class="footer-social">
+                                <a href="https://facebook.com/pawconnect" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="https://twitter.com/pawconnect" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="https://instagram.com/pawconnect" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="https://youtube.com/pawconnect" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Links -->
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h5 class="footer-heading">Quick Links</h5>
+                        <ul class="footer-list">
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="{% url 'adoption_section' %}">Adopt</a></li>
+                            <li><a href="#sos">Rescue SOS</a></li>
+                            <li><a href="{% url 'volunteer_apply' %}">Volunteer</a></li>
+                            <li><a href="{% url 'donate' %}">Donate</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Get Involved -->
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h5 class="footer-heading">Get Involved</h5>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'adoption_section' %}">Available Pets</a></li>
+                            <li><a href="{% url 'volunteer_apply' %}">Become Volunteer</a></li>
+                            <li><a href="{% url 'volunteer_apply' %}">Foster Care</a></li>
+                            <li><a href="{% url 'donate' %}">Make Donation</a></li>
+                            <li><a href="{% url 'donate' %}">Sponsor Animal</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Services -->
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h5 class="footer-heading">Services</h5>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'adoption_section' %}">Pet Adoption</a></li>
+                            <li><a href="#sos">Emergency Rescue</a></li>
+                            <li><a href="{% url 'volunteer_apply' %}">Volunteering</a></li>
+                            <li><a href="{% url 'donate' %}">Sponsorship</a></li>
+                            <li><a href="#">Pet Care Tips</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Contact & Map -->
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <h5 class="footer-heading">Contact</h5>
+                        <ul class="footer-list contact-list">
+                            <li>
+                                <strong>Call:</strong><br>
+                                <a href="tel:+977-1-4444444">+977-1-4444444</a>
+                            </li>
+                            <li>
+                                <strong>Email:</strong><br>
+                                <a href="mailto:info@pawconnect.org">info@pawconnect.org</a>
+                            </li>
+                        </ul>
+                        <div class="footer-map">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14130.863763049562!2d85.32395!3d27.7172!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb198a307baabf%3A0xb5137c1bf18db1ea!2sKathmandu%2C%20Nepal!5e0!3m2!1sen!2s!4v1234567890" width="100%" height="150" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="mb-0">&copy; 2025 PawConnect. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a href="#">Privacy Policy</a>
+                        <span class="mx-2">|</span>
+                        <a href="#">Our History</a>
+                        <span class="mx-2">|</span>
+                        <a href="#">What We Do</a>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
@@ -842,9 +893,9 @@ body {
         window.addEventListener('scroll', function() {
             var backToTop = document.getElementById('backToTop');
             if (window.pageYOffset > 300) {
-                backToTop.style.display = 'block';
+                backToTop.classList.add('show');
             } else {
-                backToTop.style.display = 'none';
+                backToTop.classList.remove('show');
             }
         });
         
@@ -898,12 +949,9 @@ function loadChatHistory() {
     chatBox.innerHTML = "";
   }
   
-  // Load all messages
+  // Load all messages without animation
   chatHistory.forEach(msg => {
-    const messageDiv = document.createElement("div");
-    messageDiv.className = `message ${msg.sender}`;
-    messageDiv.textContent = msg.text;
-    chatBox.appendChild(messageDiv);
+    appendMessage(msg.sender, msg.text, false);
   });
   
   chatBox.scrollTop = chatBox.scrollHeight;
@@ -1047,16 +1095,95 @@ function removeTypingIndicator(indicator) {
     }
 }
 
-function appendMessage(sender, text) {
+// Format bot response with markdown-like support
+function formatBotResponse(text) {
+    // Convert **bold** to <strong>
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Convert *italic* to <em>
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    
+    // Convert numbered lists
+    text = text.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
+    
+    // Convert bullet points
+    text = text.replace(/^[-•]\s+(.+)$/gm, '<li>$1</li>');
+    
+    // Wrap consecutive <li> in <ul>
+    text = text.replace(/(<li>.*<\/li>\s*)+/gs, '<ul>$&</ul>');
+    
+    // Convert line breaks to <br> but not inside <ul>
+    text = text.replace(/\n(?![^<]*<\/ul>)/g, '<br>');
+    
+    return text;
+}
+
+// Typing animation for bot messages
+async function typeMessage(element, text, speed = 30) {
+    const formattedText = formatBotResponse(text);
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = formattedText;
+    
+    let currentIndex = 0;
+    const plainText = tempDiv.textContent || tempDiv.innerText;
+    
+    // For simple text, use character-by-character typing
+    if (formattedText === text) {
+        for (let i = 0; i < text.length; i++) {
+            element.textContent += text[i];
+            
+            // Scroll to bottom during typing
+            const chatBox = document.getElementById("chat-box");
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            // Add pause for punctuation
+            if (['.', '!', '?'].includes(text[i])) {
+                await new Promise(resolve => setTimeout(resolve, 300));
+            } else if ([',', ';', ':'].includes(text[i])) {
+                await new Promise(resolve => setTimeout(resolve, 150));
+            } else {
+                await new Promise(resolve => setTimeout(resolve, speed));
+            }
+        }
+    } else {
+        // For formatted text, display it all at once after a short delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+        element.innerHTML = formattedText;
+    }
+    
+    const chatBox = document.getElementById("chat-box");
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function appendMessage(sender, text, animated = true) {
     const chatBox = document.getElementById("chat-box");
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${sender}`;
-    messageDiv.textContent = text;
-    chatBox.appendChild(messageDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
     
-    // Save to localStorage
-    saveChatMessage(sender, text);
+    if (sender === "user") {
+        messageDiv.textContent = text;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        saveChatMessage(sender, text);
+    } else {
+        // Bot message with typing animation
+        chatBox.appendChild(messageDiv);
+        
+        if (animated) {
+            typeMessage(messageDiv, text).then(() => {
+                saveChatMessage(sender, text);
+            });
+        } else {
+            // Load from history without animation
+            const formattedText = formatBotResponse(text);
+            if (formattedText !== text) {
+                messageDiv.innerHTML = formattedText;
+            } else {
+                messageDiv.textContent = text;
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    }
 }
     </script>
 </html>

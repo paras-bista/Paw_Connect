@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Pet, MedicalRecord, FoodExpense, OtherExpense, PetAdoption
+from .models import Pet, MedicalRecord, FoodExpense, OtherExpense, PetAdoption, News
 
 # Inline for Food Expenses
 class FoodExpenseInline(admin.TabularInline):
@@ -32,3 +32,12 @@ class PetAdoptionAdmin(admin.ModelAdmin):
 admin.site.register(MedicalRecord)
 admin.site.register(FoodExpense)
 admin.site.register(OtherExpense)
+
+# News Admin
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_at', 'is_active')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('title', 'description')
+    list_editable = ('is_active',)
+    date_hierarchy = 'created_at'

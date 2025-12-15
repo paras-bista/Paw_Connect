@@ -19,3 +19,6 @@ groq>=0.4.2
 
 # Email
 sendgrid>=6.11.0
+
+# Google OAuth
+social-auth-app-django>=5.4.0
