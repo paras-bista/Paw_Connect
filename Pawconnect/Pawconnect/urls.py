@@ -16,7 +16,7 @@ urlpatterns = [
     path('adopt/', include('adopt.urls')),  # ✅ new
     path('volunteer/', include('volunteer.urls')),
     path('api/', include('backend.urls')),  # ✅ new
-    path('auth/', include('social_django.urls', namespace='social')),  # Google OAuth
+    # path('auth/', include('social_django.urls', namespace='social')),  # Google OAuth - disabled for now
     # path('news/', include('newsfeed.urls')),  # ✅ new
 ]
 
