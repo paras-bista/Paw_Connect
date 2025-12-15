@@ -14,7 +14,12 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
 from dotenv import load_dotenv
-import dj_database_url
+
+# Conditional import for dj_database_url (only needed for Heroku/Azure)
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
 
 # Load environment variables from .env file
 load_dotenv()
@@ -143,7 +148,7 @@ WSGI_APPLICATION = 'Pawconnect.wsgi.application'
 DATABASE_URL = os.getenv('DATABASE_URL')
 DB_NAME = os.getenv('DB_NAME')
 
-if DATABASE_URL:
+if DATABASE_URL and dj_database_url:
     # Azure/Production: Use PostgreSQL
     DATABASES = {
         'default': dj_database_url.config(
