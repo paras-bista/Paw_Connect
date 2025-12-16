@@ -118,19 +118,22 @@ def signup(request):
         request.session['temp_user_password'] = password
         request.session['otp'] = otp
 
-        # Send OTP email (with fallback for PythonAnywhere SMTP issues)
-        email_sent = False
+        # Send OTP email - REQUIRED, no fallback for security
         try:
             send_otp_email(email, otp)
-            email_sent = True
-            messages.success(request, f'OTP has been sent to {email}')
+            messages.success(request, f'OTP has been sent to {email}. Please check your inbox (and spam folder).')
+            print(f"OTP sent successfully to {email}")
+            return redirect('verify_otp')
         except Exception as e:
-            # SMTP failed - show OTP on screen as fallback
-            messages.warning(request, f'Email service temporarily unavailable. Your OTP code is: {otp}')
+            # Email failed - DO NOT show OTP on screen for security
+            messages.error(request, 'Failed to send OTP email. Please check your email address or try again later.')
             print(f"Email error: {e}")
-            print(f"Fallback OTP for {email}: {otp}")
-        
-        return redirect('verify_otp')  # Redirect to OTP verification page
+            # Clear session data since OTP wasn't sent
+            request.session.pop('temp_user_email', None)
+            request.session.pop('temp_user_username', None)
+            request.session.pop('temp_user_password', None)
+            request.session.pop('otp', None)
+            return render(request, 'accounts/signup.html')
 
     return render(request, 'accounts/signup.html')# ✅ fixed
 
