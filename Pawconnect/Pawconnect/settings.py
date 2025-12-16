@@ -55,7 +55,10 @@ CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_SECURE = not DEBUG
-SECURE_SSL_REDIRECT = not DEBUG
+
+# SSL redirect - disabled for PythonAnywhere (they handle SSL)
+# Enable only for platforms like Heroku/Azure
+SECURE_SSL_REDIRECT = False  # PythonAnywhere handles SSL automatically
 
 
 # Application definition
