@@ -219,8 +219,15 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# WhiteNoise configuration for Azure (disabled for PythonAnywhere)
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Static files storage configuration
+# For PythonAnywhere: use default Django storage
+# For Azure/Heroku: use WhiteNoise with compression
+if 'pythonanywhere.com' in ','.join(ALLOWED_HOSTS):
+    # PythonAnywhere uses its own static file serving
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+else:
+    # Azure/Heroku with WhiteNoise compression
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
 MEDIA_URL = '/media/'

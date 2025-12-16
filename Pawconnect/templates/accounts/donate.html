@@ -745,7 +745,7 @@
 
         // Chat starts hidden by default via HTML class
 
-        const API_URL = "http://127.0.0.1:8001/chat/"; // Backend URL
+        const API_URL = "/api/chat/"; // Django backend chatbot endpoint
         let conversationId = localStorage.getItem("conversationId") || "convo-" + Date.now();
         localStorage.setItem("conversationId", conversationId);
 
