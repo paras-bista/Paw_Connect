@@ -264,6 +264,9 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@pawconnect.com')
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
+# Admin email for receiving notifications
+ADMIN_EMAIL = os.getenv('ADMIN_EMAIL', DEFAULT_FROM_EMAIL)
+
 # Custom Admin URL (for security)
 ADMIN_URL = os.getenv('ADMIN_URL', 'admin')  # Change in production to secret URL
 

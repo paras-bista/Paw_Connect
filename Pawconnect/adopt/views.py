@@ -21,6 +21,36 @@ def adopt_pet(request, pet_id):
             adoption_request.pet = pet
             adoption_request.user = request.user  # optional: link request to logged-in user
             adoption_request.save()
+            
+            # Send notification to admin
+            try:
+                from django.core.mail import send_mail
+                from django.conf import settings
+                
+                admin_subject = f'New Adoption Request: {pet.name}'
+                admin_message = f"""
+New Adoption Request Received:
+
+Pet: {pet.name}
+Applicant: {request.user.email}
+Full Name: {adoption_request.full_name}
+Phone: {adoption_request.phone}
+Address: {adoption_request.address}
+Experience: {adoption_request.experience}
+Reason: {adoption_request.reason}
+
+Please review this application in the admin panel.
+                """
+                send_mail(
+                    admin_subject,
+                    admin_message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [settings.DEFAULT_FROM_EMAIL],
+                    fail_silently=True,
+                )
+            except Exception as e:
+                print(f"Failed to send admin notification: {e}")
+            
             messages.success(request, f"Your adoption request for {pet.name} has been submitted!")
             return redirect("/")
     else:
@@ -40,6 +70,35 @@ def sponsor_pet(request, pet_id):
             sponsorship.pet = pet
             sponsorship.user = request.user  # optional: link to user
             sponsorship.save()
+            
+            # Send notification to admin
+            try:
+                from django.core.mail import send_mail
+                from django.conf import settings
+                
+                admin_subject = f'New Sponsorship Request: {pet.name}'
+                admin_message = f"""
+New Sponsorship Request Received:
+
+Pet: {pet.name}
+Sponsor: {request.user.email}
+Full Name: {sponsorship.full_name}
+Phone: {sponsorship.phone}
+Sponsorship Type: {sponsorship.sponsorship_type}
+Amount: ${sponsorship.amount}
+
+Please review this sponsorship request in the admin panel.
+                """
+                send_mail(
+                    admin_subject,
+                    admin_message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [settings.ADMIN_EMAIL],
+                    fail_silently=True,
+                )
+            except Exception as e:
+                print(f"Failed to send admin notification: {e}")
+            
             messages.success(request, f"Your sponsorship request for {pet.name} has been submitted!")
             return redirect("/")
     else:

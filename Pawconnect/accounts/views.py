@@ -39,7 +39,7 @@ def send_otp_email(email, otp):
     # Notify admin about new signup
     admin_subject = f'New Signup: {email}'
     admin_message = f'A new user is signing up:\n\nEmail: {email}\nOTP sent: {otp}\nTime: {settings.TIME_ZONE}'
-    send_mail(admin_subject, admin_message, settings.DEFAULT_FROM_EMAIL, [settings.DEFAULT_FROM_EMAIL])
+    send_mail(admin_subject, admin_message, settings.DEFAULT_FROM_EMAIL, [settings.ADMIN_EMAIL])
 
 # ---------- Base ----------
 def base(request):
